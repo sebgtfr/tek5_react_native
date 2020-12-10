@@ -1,12 +1,26 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+
+import {
+    Text,
+    View,
+    TouchableOpacity,
+} from 'react-native';
+
+import Intl from '../../configs/Intl';
+
+import SignInForm from '../../components/forms/SignInForm';
 
 import Styles from './Styles';
 
-const SignIn = () =>
+const SignIn = ({ navigation }) =>
 (
     <View style={Styles.container}>
-      <Text>SignIn</Text>
+        <SignInForm />
+        <TouchableOpacity
+            onPress={() => navigation.navigate('SignUp')}
+        >
+            <Text>{Intl.t('signUp')}</Text>
+        </TouchableOpacity>
     </View>
 );
 

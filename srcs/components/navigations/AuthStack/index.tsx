@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 
 const AuthStack = () =>
 (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Home" screenOptions={{ title: 'EMercure' }}>
         <Stack.Screen name="Home" component={Home} />
     </Stack.Navigator>
 );

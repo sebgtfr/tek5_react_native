@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 
 const NotAuthStack = () =>
 (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="SignIn" screenOptions={{ title: 'EMercure' }}>
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
     </Stack.Navigator>

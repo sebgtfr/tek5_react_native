@@ -1,13 +1,15 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+
+import SignUpForm from '../../components/forms/SignUpForm';
 
 import Styles from './Styles';
 
 const SignUp = () =>
 (
-    <View style={Styles.container}>
-      <Text>SignUp</Text>
-    </View>
+  <View style={Styles.container}>
+    <SignUpForm />
+  </View>
 );
 
 export default SignUp;
