@@ -11,7 +11,7 @@ const Home = () => (
     <FirebaseConsumer>
       {(firebase) => (
         <IntlConsumer>
-          {(intl) => <Button onPress={() => firebase.signOut()} title={intl.t('signOut')} />}
+          {(intl) => <Button onPress={() => firebase.signOut()} title={intl.t('button.signOut')} />}
         </IntlConsumer>
       )}
     </FirebaseConsumer>

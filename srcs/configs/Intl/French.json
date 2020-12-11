@@ -1,8 +1,50 @@
 {
-  "email": "email",
-  "password": "mot de passe",
-  "signIn": "se connecter",
-  "signUp": "s'inscrire",
+  "form": {
 
-  "signOut": "deconnexion"
+    "input": {
+
+      "email": "email",
+      "password": "mot de passe"
+
+    },
+
+    "error": {
+
+      "missing": {
+
+        "email": "l'adresse e-mail est requis.",
+        "password": "le mot de passe est requis."
+
+      },
+
+      "invalid": {
+
+        "email": "le format de l'adresse e-mail est invalide."
+
+      },
+
+      "signIn": "les informations d'identification invalides.",
+      "signUp": "l'adresse e-mail déjà utilisée."
+    },
+
+    "submit": {
+
+      "signIn": "se connecter",
+      "signUp": "s'inscrire"
+
+    }
+
+  },
+  
+  "link": {
+
+    "signUp": "s'inscrire"
+
+  },
+
+  "button": {
+
+    "signOut": "deconnexion"
+
+  }
 }

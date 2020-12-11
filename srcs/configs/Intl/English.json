@@ -1,8 +1,50 @@
 {
-  "email": "email",
-  "password": "password",
-  "signIn": "sign in",
-  "signUp": "sign up",
+  "form": {
 
-  "signOut": "deconnection"
+    "input": {
+
+      "email": "email",
+      "password": "password"
+
+    },
+
+    "error": {
+
+      "missing": {
+
+        "email": "email is required.",
+        "password": "password is required."
+
+      },
+
+      "invalid": {
+
+        "email": "email format invalid."
+
+      },
+
+      "signIn": "Invalid credentials.",
+      "signUp": "Email already used."
+    },
+
+    "submit": {
+
+      "signIn": "sign in",
+      "signUp": "sign up"
+
+    }
+
+  },
+
+  "link": {
+
+    "signUp": "sign up"
+
+  },
+
+  "button": {
+
+    "signOut": "deconnection"
+
+  }
 }

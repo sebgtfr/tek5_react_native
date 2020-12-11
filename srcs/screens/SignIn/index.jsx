@@ -7,18 +7,39 @@ import IntlText from '../../components/intl/TextIntl';
 
 import SignInForm from '../../components/forms/SignInForm';
 
+import { IntlConsumer } from '../../providers/IntlProvider';
+import { FirebaseConsumer } from '../../providers/FirebaseProvider';
+
 import Styles from './Styles';
 
-const SignIn = ({ navigation }) => (
-  <View style={Styles.container}>
-    <SignInForm />
-    <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-      <Text>
-        <IntlText id="signUp" />
-      </Text>
-    </TouchableOpacity>
-  </View>
-);
+const SignIn = ({ navigation }) => {
+  const [error, setError] = React.useState(null);
+
+  return (
+    <View style={Styles.container}>
+      <IntlConsumer>
+        {(intl) => (
+          <FirebaseConsumer>
+            {(firebase) => (
+              <SignInForm
+                onSubmit={(email, password) =>
+                  firebase
+                    .signIn(email, password)
+                    .catch(() => setError(intl.t('form.error.signIn')))}
+              />
+            )}
+          </FirebaseConsumer>
+        )}
+      </IntlConsumer>
+      {error && <Text>{error}</Text>}
+      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <Text>
+          <IntlText id="link.signUp" />
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 SignIn.propTypes = {
   navigation: PropTypes.shape({

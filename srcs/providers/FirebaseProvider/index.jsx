@@ -19,9 +19,10 @@ export const FirebaseConsumer = FirebaseContext.Consumer;
 const FirebaseProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(Reducer, ReducerDefaultState);
 
-  const onAuthStateChanged = React.useCallback(() => {
-    Firebase.auth().onAuthStateChanged((user) => dispatch({ type: 'UPDATE_USER', user }));
-  }, []);
+  const onAuthStateChanged = React.useCallback(
+    () => Firebase.auth().onAuthStateChanged((user) => dispatch({ type: 'UPDATE_USER', user })),
+    []
+  );
 
   React.useEffect(onAuthStateChanged, [onAuthStateChanged]);
 
