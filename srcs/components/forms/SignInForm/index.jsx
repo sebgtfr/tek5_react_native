@@ -2,8 +2,7 @@ import React from 'react';
 
 import { KeyboardAvoidingView, TextInput, Button } from 'react-native';
 
-import Intl from '../../../configs/Intl';
-
+import { IntlConsumer } from '../../../providers/IntlProvider';
 import { FirebaseConsumer } from '../../../providers/FirebaseProvider';
 
 const SignInForm = () => {
@@ -12,27 +11,33 @@ const SignInForm = () => {
 
   return (
     <KeyboardAvoidingView behavior="padding">
-      <TextInput
-        autoCapitalize="none"
-        autoCorrect={false}
-        keyboardType="email-address"
-        returnKeyType="next"
-        onChangeText={setEmail}
-        placeholder={Intl.t('email')}
-      />
+      <IntlConsumer>
+        {(intl) => (
+          <>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={setEmail}
+              placeholder={intl.t('email')}
+            />
 
-      <TextInput
-        returnKeyType="go"
-        onChangeText={setPassword}
-        placeholder={Intl.t('password')}
-        secureTextEntry
-      />
+            <TextInput
+              returnKeyType="go"
+              onChangeText={setPassword}
+              placeholder={intl.t('password')}
+              secureTextEntry
+            />
 
-      <FirebaseConsumer>
-        {(firebase) => (
-          <Button onPress={() => firebase.signIn(email, password)} title={Intl.t('signIn')} />
+            <FirebaseConsumer>
+              {(firebase) => (
+                <Button onPress={() => firebase.signIn(email, password)} title={intl.t('signIn')} />
+              )}
+            </FirebaseConsumer>
+          </>
         )}
-      </FirebaseConsumer>
+      </IntlConsumer>
     </KeyboardAvoidingView>
   );
 };

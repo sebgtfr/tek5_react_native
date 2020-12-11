@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 import Firebase from '../../configs/Firebase';
 
+// Reducer
+import Reducer, { ReducerDefaultState } from './Reducer';
+
 // Callbacks
 import Auth from './Auth';
 
@@ -14,10 +17,10 @@ export const FirebaseContext = React.createContext({
 export const FirebaseConsumer = FirebaseContext.Consumer;
 
 const FirebaseProvider = ({ children }) => {
-  // const [isLoading, setLoadingState] = React.useState(true);
-  const [user, setUser] = React.useState(null);
+  const [state, dispatch] = React.useReducer(Reducer, ReducerDefaultState);
+
   const onAuthStateChanged = React.useCallback(() => {
-    Firebase.auth().onAuthStateChanged(setUser);
+    Firebase.auth().onAuthStateChanged((user) => dispatch({ type: 'UPDATE_USER', user }));
   }, []);
 
   React.useEffect(onAuthStateChanged, [onAuthStateChanged]);
@@ -25,13 +28,13 @@ const FirebaseProvider = ({ children }) => {
   const firebaseContext = React.useMemo(
     () => ({
       // Attributs
-      user,
-      isLogged: user !== null,
+      ...state,
+      isLogged: state.user !== null,
 
       // Auth callbacks
       ...Auth,
     }),
-    [user]
+    [state]
   );
 
   return <FirebaseContext.Provider value={firebaseContext}>{children}</FirebaseContext.Provider>;

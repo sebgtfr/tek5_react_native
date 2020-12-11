@@ -6,11 +6,15 @@ import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 
 import { LightTheme, DarkTheme } from './srcs/configs/Themes';
 
+import MultiProvider from './srcs/components/MultiProvider';
 import FirebaseProvider, { FirebaseConsumer } from './srcs/providers/FirebaseProvider';
+import IntlProvider from './srcs/providers/IntlProvider';
 
 // Navigation Stacks
 import NotAuthStack from './srcs/components/navigations/NotAuthStack';
 import AuthStack from './srcs/components/navigations/AuthStack';
+
+import SplashScreen from './srcs/screens/SplashScreen';
 
 const App = () => {
   const scheme = useColorScheme();
@@ -18,11 +22,16 @@ const App = () => {
   return (
     <AppearanceProvider>
       <NavigationContainer theme={scheme === 'dark' ? DarkTheme : LightTheme}>
-        <FirebaseProvider>
+        <MultiProvider providers={[FirebaseProvider, IntlProvider]}>
           <FirebaseConsumer>
-            {({ isLogged }) => (isLogged ? <AuthStack /> : <NotAuthStack />)}
+            {({ isLoading, isLogged }) => {
+              if (isLoading) {
+                return <SplashScreen />;
+              }
+              return isLogged ? <AuthStack /> : <NotAuthStack />;
+            }}
           </FirebaseConsumer>
-        </FirebaseProvider>
+        </MultiProvider>
       </NavigationContainer>
     </AppearanceProvider>
   );

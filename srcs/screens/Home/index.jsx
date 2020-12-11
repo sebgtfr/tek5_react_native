@@ -1,8 +1,7 @@
 import React from 'react';
 import { Button, View } from 'react-native';
 
-import Intl from '../../configs/Intl';
-
+import { IntlConsumer } from '../../providers/IntlProvider';
 import { FirebaseConsumer } from '../../providers/FirebaseProvider';
 
 import Styles from './Styles';
@@ -10,7 +9,11 @@ import Styles from './Styles';
 const Home = () => (
   <View style={Styles.container}>
     <FirebaseConsumer>
-      {(firebase) => <Button onPress={() => firebase.signOut()} title={Intl.t('signOut')} />}
+      {(firebase) => (
+        <IntlConsumer>
+          {(intl) => <Button onPress={() => firebase.signOut()} title={intl.t('signOut')} />}
+        </IntlConsumer>
+      )}
     </FirebaseConsumer>
   </View>
 );

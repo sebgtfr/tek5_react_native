@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Text, View, TouchableOpacity } from 'react-native';
 
-import Intl from '../../configs/Intl';
+import IntlText from '../../components/intl/TextIntl';
 
 import SignInForm from '../../components/forms/SignInForm';
 
@@ -13,7 +13,9 @@ const SignIn = ({ navigation }) => (
   <View style={Styles.container}>
     <SignInForm />
     <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-      <Text>{Intl.t('signUp')}</Text>
+      <Text>
+        <IntlText id="signUp" />
+      </Text>
     </TouchableOpacity>
   </View>
 );
