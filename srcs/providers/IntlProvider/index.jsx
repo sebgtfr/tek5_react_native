@@ -13,12 +13,13 @@ export const IntlConsumer = IntlContext.Consumer;
 
 const IntlProvider = ({ children }) => {
   const [locale, setLocale] = React.useState(Localization.locale);
+  const getAvailableLanguages = React.useCallback(() => Object.keys(Intl.translations), []);
 
   const changeLocal = React.useCallback((_locale) => {
-    if (Object.keys(Intl.translations).indexOf(_locale) !== -1) {
+    if (getAvailableLanguages.indexOf(_locale) !== -1) {
       setLocale(_locale);
     }
-  }, []);
+  }, [getAvailableLanguages]);
 
   Intl.locale = locale;
 
@@ -27,9 +28,10 @@ const IntlProvider = ({ children }) => {
       // Attributs
       locale,
       changeLocal,
+      getAvailableLanguages,
       t: Intl.t
     }),
-    [changeLocal, locale]
+    [locale, changeLocal, getAvailableLanguages]
   );
 
   return <IntlContext.Provider value={intlContext}>{children}</IntlContext.Provider>;
