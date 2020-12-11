@@ -5,8 +5,7 @@ import SignUpForm from '../../components/forms/SignUpForm';
 
 import Styles from './Styles';
 
-const SignUp = () =>
-(
+const SignUp = () => (
   <View style={Styles.container}>
     <SignUpForm />
   </View>

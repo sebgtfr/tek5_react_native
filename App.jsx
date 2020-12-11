@@ -20,12 +20,12 @@ const App = () => {
       <NavigationContainer theme={scheme === 'dark' ? DarkTheme : LightTheme}>
         <FirebaseProvider>
           <FirebaseConsumer>
-            {({isLogged}) => isLogged ? <AuthStack /> : <NotAuthStack />}
+            {({ isLogged }) => (isLogged ? <AuthStack /> : <NotAuthStack />)}
           </FirebaseConsumer>
         </FirebaseProvider>
       </NavigationContainer>
     </AppearanceProvider>
   );
-}
+};
 
 export default App;
