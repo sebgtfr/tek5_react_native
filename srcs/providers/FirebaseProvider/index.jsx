@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Firebase from '../../configs/Firebase';
 
@@ -15,14 +16,12 @@ export const FirebaseConsumer = FirebaseContext.Consumer;
 const FirebaseProvider = ({ children }) => {
   // const [isLoading, setLoadingState] = React.useState(true);
   const [user, setUser] = React.useState(null);
+  const onAuthStateChanged = React.useCallback(() => {
+    Firebase.auth().onAuthStateChanged(setUser);
+  }, []);
 
-  React.useEffect(
-    React.useCallback(() => {
-      Firebase.auth().onAuthStateChanged(setUser);
-    }, [setUser]),
-    []
-  );
-  
+  React.useEffect(onAuthStateChanged, [onAuthStateChanged]);
+
   const firebaseContext = React.useMemo(
     () => ({
       // Attributs
@@ -36,6 +35,10 @@ const FirebaseProvider = ({ children }) => {
   );
 
   return <FirebaseContext.Provider value={firebaseContext}>{children}</FirebaseContext.Provider>;
+};
+
+FirebaseProvider.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 export default FirebaseProvider;

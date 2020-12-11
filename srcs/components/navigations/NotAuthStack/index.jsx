@@ -14,4 +14,6 @@ const NotAuthStack = () => (
   </Stack.Navigator>
 );
 
+NotAuthStack.propTypes = {};
+
 export default NotAuthStack;

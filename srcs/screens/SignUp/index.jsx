@@ -11,4 +11,6 @@ const SignUp = () => (
   </View>
 );
 
+SignUp.propTypes = {};
+
 export default SignUp;
