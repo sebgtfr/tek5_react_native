@@ -1,4 +1,10 @@
-import * as firebase from 'firebase';
+import './fix';
+
+import * as firebase from 'firebase/app';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@firebase/auth';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@firebase/firestore';
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -11,6 +17,8 @@ const firebaseConfig = {
   measurementId: 'G-T40VJEB8RL',
 };
 
-firebase.initializeApp(firebaseConfig);
+const App = firebase.initializeApp(firebaseConfig);
+
+export const Firestore = firebase.firestore(App);
 
 export default firebase;
