@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native-paper';
+import { View } from 'react-native';
 
-import IntlText from '../../components/intl/TextIntl';
+import { ButtonIntl } from '../../components/intl';
 
 import SignInForm from '../../components/forms/SignInForm';
 
@@ -25,6 +26,7 @@ const SignIn = ({ navigation }) => {
                 onSubmit={(email, password) =>
                   firebase
                     .signIn(email, password)
+                    // eslint-disable-next-line prettier/prettier
                     .catch(() => setError(intl.t('form.error.signIn')))}
               />
             )}
@@ -32,11 +34,12 @@ const SignIn = ({ navigation }) => {
         )}
       </IntlConsumer>
       {error && <Text>{error}</Text>}
-      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text>
-          <IntlText id="link.signUp" />
-        </Text>
-      </TouchableOpacity>
+      <ButtonIntl
+        title="link.signUp"
+        mode="text"
+        onSubmit={() => navigation.navigate('SignUp')}
+        labelStyle={Styles.navButtonText}
+      />
     </View>
   );
 };

@@ -1,23 +1,54 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from 'react-native';
+import { Button } from 'react-native-paper';
 
-import { IntlConsumer } from '../../../providers/IntlProvider';
+import { validate } from 'validate.js';
+import TextIntl from '../TextIntl';
 
-const ButtonIntl = ({ id, onPress }) => (
-  <IntlConsumer>
-    {(intl) => <Button onPress={onPress} title={intl.t(`button.${id}`)} />}
-  </IntlConsumer>
+import Styles from './Styles';
+
+const ButtonIntl = ({ title, onSubmit, constraints, onError, mode, labelStyle, uppercase }) => (
+  <Button
+    style={Styles.button}
+    mode={mode}
+    labelStyle={labelStyle}
+    uppercase={uppercase}
+    onPress={() => {
+      const validatedErrors =
+        constraints !== null ? validate(constraints.fields, constraints.rules) : undefined;
+
+      if (onError !== null) {
+        onError(validatedErrors || {});
+      }
+      if (validatedErrors === undefined) {
+        onSubmit();
+      }
+    }}
+  >
+    <TextIntl id={title} />
+  </Button>
 );
 
 ButtonIntl.propTypes = {
-  id: PropTypes.string.isRequired,
-  onPress: PropTypes.func,
+  title: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  constraints: PropTypes.shape({
+    rules: PropTypes.shape({}).isRequired,
+    fields: PropTypes.shape({}).isRequired,
+  }),
+  onError: PropTypes.func,
+  mode: PropTypes.string,
+  labelStyle: PropTypes.shape({}),
+  uppercase: PropTypes.bool,
 };
 
 ButtonIntl.defaultProps = {
-  onPress: undefined,
+  constraints: null,
+  onError: null,
+  mode: 'contained',
+  labelStyle: null,
+  uppercase: false,
 };
 
 export default ButtonIntl;
