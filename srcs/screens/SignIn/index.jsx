@@ -16,19 +16,19 @@ import Styles from './Styles';
 const SignIn = ({ navigation }) => {
   const [error, setError] = React.useState(null);
 
+  const signIn = React.useCallback(
+    (intl, firebase, email, password) =>
+      firebase.signIn(email, password).catch(() => setError(intl.t('form.error.signIn'))),
+    []
+  );
+
   return (
     <View style={Styles.container}>
       <IntlConsumer>
         {(intl) => (
           <FirebaseConsumer>
             {(firebase) => (
-              <SignInForm
-                onSubmit={(email, password) =>
-                  firebase
-                    .signIn(email, password)
-                    // eslint-disable-next-line prettier/prettier
-                    .catch(() => setError(intl.t('form.error.signIn')))}
-              />
+              <SignInForm onSubmit={(email, password) => signIn(intl, firebase, email, password)} />
             )}
           </FirebaseConsumer>
         )}

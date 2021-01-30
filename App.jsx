@@ -32,32 +32,10 @@ const App = () => (
             </FirebaseConsumer>
           </NavigationContainer>
         </PaperProvider>
-        // eslint-disable-next-line prettier/prettier
-    )}
+      )}
     </ThemeConsumer>
   </MultiProvider>
 );
-
-// const App = () => {
-//   const scheme = useColorScheme();
-
-//   return (
-//     <AppearanceProvider>
-//       <NavigationContainer theme={scheme === 'dark' ? DarkTheme : LightTheme}>
-//         <MultiProvider providers={[FirebaseProvider, IntlProvider]}>
-//           <FirebaseConsumer>
-//             {({ isLoading, isLogged }) => {
-//               if (isLoading) {
-//                 return <SplashScreen />;
-//               }
-//               return isLogged ? <AuthStack /> : <NotAuthStack />;
-//             }}
-//           </FirebaseConsumer>
-//         </MultiProvider>
-//       </NavigationContainer>
-//     </AppearanceProvider>
-//   );
-// };
 
 App.propTypes = {};
 

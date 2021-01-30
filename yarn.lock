@@ -1240,7 +1240,7 @@
   "resolved" "https://registry.npmjs.org/@firebase/auth-types/-/auth-types-0.9.5.tgz"
   "version" "0.9.5"
 
-"@firebase/auth@0.13.5":
+"@firebase/auth@^0.13.5", "@firebase/auth@0.13.5":
   "integrity" "sha512-0s/ULeqstzQ/Xi0ZgJnasYXH4WtTRaa9LztPv9gXHjwmOt/GtFnRUeW0RqDCmF4A2uikanMFm5+wtm80BkfpTg=="
   "resolved" "https://registry.npmjs.org/@firebase/auth/-/auth-0.13.5.tgz"
   "version" "0.13.5"
@@ -1280,7 +1280,7 @@
   "resolved" "https://registry.npmjs.org/@firebase/firestore-types/-/firestore-types-1.9.1.tgz"
   "version" "1.9.1"
 
-"@firebase/firestore@1.11.0":
+"@firebase/firestore@^1.11.0", "@firebase/firestore@1.11.0":
   "integrity" "sha512-BMCdngDbYjrjKMLtszp34O8Hiw+zumsn4KhwSXpiLcHqKb2l7LN5XCdlKrLz4m3SXcit6vENfVWngVhwaMNalw=="
   "resolved" "https://registry.npmjs.org/@firebase/firestore/-/firestore-1.11.0.tgz"
   "version" "1.11.0"

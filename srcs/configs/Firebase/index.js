@@ -1,9 +1,7 @@
 import './fix';
 
 import * as firebase from 'firebase/app';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import '@firebase/auth';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import '@firebase/firestore';
 
 // Initialize Firebase
