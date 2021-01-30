@@ -18,21 +18,23 @@ const useImage = (type, methode) => {
             allowsEditing: true,
             aspect: [4, 3],
             base64: true,
-            quality: 0.4,
+            quality: 0,
           });
           if (!result.cancelled) {
-            setImage(type == 'uri' ? result.uri : result.base64);
+            const tmp = 'data:image/jpeg;base64,' + result.base64;
+            setImage(type == 'uri' ? result.uri : tmp);
           }
         } else {
           const result = await ImagePicker.launchCameraAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
             base64: true,
-            quality: 0.4,
+            quality: 0,
           });
           if (!result.cancelled) {
-            setImage(type == 'uri' ? result.uri : result.base64);
+            const tmp = 'data:image/jpeg;base64,' + result.base64;
+            setImage(type == 'uri' ? result.uri : tmp);
           }
         }
       }

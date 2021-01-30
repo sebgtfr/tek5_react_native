@@ -16,7 +16,7 @@ import { Button, Portal, Dialog, TextInput, RadioButton } from 'react-native-pap
 const Profile = () => {
   const firebase = React.useContext(FirebaseContext);
   const { image, pickImage } = useImage('uri');
-  const [checked, setChecked] = React.useState(false);
+  const [methodeChecked, setMethodeChecked] = React.useState(false);
   const [isDialogVisible, setIsDialogVisible] = React.useState(false);
 
   React.useEffect(() => {
@@ -32,20 +32,20 @@ const Profile = () => {
               <Text>take picture from camera</Text>
               <RadioButton
                 value="true"
-                status={checked === true ? 'checked' : 'unchecked'}
-                onPress={() => setChecked(true)}
+                status={methodeChecked === true ? 'checked' : 'unchecked'}
+                onPress={() => setMethodeChecked(true)}
               />
               <Text>take picture from gallery</Text>
               <RadioButton
                 value="false"
-                status={checked === false ? 'checked' : 'unchecked'}
-                onPress={() => setChecked(false)}
+                status={methodeChecked === false ? 'checked' : 'unchecked'}
+                onPress={() => setMethodeChecked(false)}
               />
             </Dialog.Content>
             <Dialog.Actions>
               <Button
                 onPress={() => {
-                  setChecked(false);
+                  setMethodeChecked(false);
                   setIsDialogVisible(false);
                 }}
               >
@@ -54,9 +54,9 @@ const Profile = () => {
               <Button
                 onPress={() => {
                   setIsDialogVisible(false);
-                  pickImage(checked);
+                  pickImage(methodeChecked);
 
-                  setChecked(false);
+                  setMethodeChecked(false);
                 }}
               >
                 Submit
