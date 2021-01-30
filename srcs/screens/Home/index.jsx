@@ -37,6 +37,7 @@ const Home = () => {
                 <Text>
                   Name: {item.name}
                   {'\n'}Description: {item.desc}
+                  {'\n'}By: {item.email}
                   {'\n'}
                 </Text>
               )}

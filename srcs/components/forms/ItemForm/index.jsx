@@ -19,8 +19,6 @@ import { FirebaseConsumer } from '../../../providers/FirebaseProvider';
 
 
 const ItemForm = () => {
-  const [mail, setMail] = React.useState('');
-  const [id, setId] = React.useState('');
   const [name, setName] = React.useState('Name');
   const [desc, setDesc] = React.useState('Description');
   const [latitude, setLatitude] = React.useState(false);
