@@ -1,135 +1,95 @@
 import React from 'react';
 
-import { Button, Portal, Dialog, TextInput, RadioButton, Text } from 'react-native-paper';
+import { View } from 'react-native';
+import { Portal, Dialog, FAB } from 'react-native-paper';
 
-import { ButtonIntl, TextIntl, PIntl } from '../../intl';
+import { ButtonIntl, TextIntl } from '../../intl';
+import { FormButton, FormInput, FormAvatar } from '../utils';
+import Switch from '../../utils/Switch';
 
 import useCollection from '../../../hooks/useCollection';
+import useLocation from '../../../hooks/useLocation';
 
-import { FirebaseConsumer, FirebaseContext } from '../../../providers/FirebaseProvider';
-import useImage from '../../../hooks/useImage';
+import { FirebaseConsumer } from '../../../providers/FirebaseProvider';
+
+import Reducer, { defaultReducerValue } from './Reducer';
+
+import Styles from './Styles';
 
 const ItemForm = () => {
-  const [name, setName] = React.useState('Name');
-  const [desc, setDesc] = React.useState('Description');
-  const [latitude, setLatitude] = React.useState(false);
-  const [longitude, setLongitude] = React.useState(false);
-  const [isDialogVisible, setIsDialogVisible] = React.useState(false);
-  const [checked, setChecked] = React.useState('oui');
-  const { image, pickImage } = useImage('');
-  const [methodeChecked, setMethodeChecked] = React.useState(false);
-  const firebase = React.useContext(FirebaseContext);
+  const location = useLocation();
+  const itemsCollection = useCollection('items');
+
+  const [{ name, desc, addLocation, image, addItemFormVisible }, dispatch] = React.useReducer(
+    Reducer,
+    defaultReducerValue
+  );
+
+  const setName = React.useCallback((_name) => dispatch({ type: 'UPDATE_NAME', name: _name }), []);
+  const setDesc = React.useCallback((_desc) => dispatch({ type: 'UPDATE_DESC', desc: _desc }), []);
+  const setAddLocation = React.useCallback(
+    (_addLocation) => dispatch({ type: 'UPDATE_ADD_LOCATION', addLocation: _addLocation }),
+    []
+  );
+  const setImage = React.useCallback(
+    (_image) => dispatch({ type: 'UPDATE_IMAGE', image: _image }),
+    []
+  );
+  const OpenAddItemForm = React.useCallback(() => dispatch({ type: 'OPEN_ADD_ITEM_FORM' }), []);
+  const CloseAddItemForm = React.useCallback(() => dispatch({ type: 'CLOSE_ADD_ITEM_FORM' }), []);
 
   React.useEffect(() => {
-    (async () => {
-      const { status } = await Location.requestPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-      } else {
-        const location = await Location.getCurrentPositionAsync({});
-        setLatitude(location.coords.latitude);
-        setLongitude(location.coords.longitude);
-      }
-    })();
-  }, []);
-
-  React.useEffect(() => {
-    if (image !== null) {
-      if (longitude && checked == 'oui') {
-        useCollection('items')
-          .doc()
-          .set({
-            name,
-            desc,
-            latitude,
-            longitude,
-            email: firebase.user.email,
-            id: firebase.user.uid,
-            photoURL: { uri: image },
-          });
-      } else {
-        useCollection('items')
-          .doc()
-          .set({
-            name,
-            desc,
-            email: firebase.user.email,
-            id: firebase.user.uid,
-            photoURL: { uri: image },
-          });
-        console.log(image);
-      }
-      setName('Name');
-      setDesc('Description');
-      setMethodeChecked(false);
-    }
-  }, [image]);
+    setAddLocation(location.hasPosition);
+  }, [location.hasPosition, setAddLocation]);
 
   return (
     <>
-      <Button
-        mode="contained"
-        onPress={(_) => {
-          setIsDialogVisible(true);
-        }}
-      >
-        <Portal>
-          <Dialog visible={isDialogVisible} onDismiss={() => setIsDialogVisible(false)}>
-            <Dialog.Title>add item</Dialog.Title>
-            <Dialog.Content>
-              <TextInput value={name} onChangeText={(text) => setName(text)} />
-              <TextInput value={desc} onChangeText={(text) => setDesc(text)} />
-              <Dialog.Title>Localisation</Dialog.Title>
-              <Text>oui</Text>
-              <RadioButton
-                value="oui"
-                status={checked === 'oui' ? 'checked' : 'unchecked'}
-                onPress={() => setChecked('oui')}
-              />
-              <Text>non</Text>
-              <RadioButton
-                value="non"
-                status={checked === 'non' ? 'checked' : 'unchecked'}
-                onPress={() => setChecked('non')}
-              />
-              <Dialog.Title>Choose methode</Dialog.Title>
-              <Text>take picture from camera</Text>
-              <RadioButton
-                value="true"
-                status={methodeChecked === true ? 'checked' : 'unchecked'}
-                onPress={() => setMethodeChecked(true)}
-              />
-              <Text>take picture from gallery</Text>
-              <RadioButton
-                value="false"
-                status={methodeChecked === false ? 'checked' : 'unchecked'}
-                onPress={() => setMethodeChecked(false)}
-              />
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button
-                onPress={() => {
-                  setName('Name');
-                  setDesc('Description');
-                  setMethodeChecked(false);
-                  setIsDialogVisible(false);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                onPress={() => {
-                  pickImage(methodeChecked);
-                  setIsDialogVisible(false);
-                }}
-              >
-                Submit
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
-        Add item
-      </Button>
+      <FAB icon="plus" style={Styles.fab} onPress={OpenAddItemForm} visible={!addItemFormVisible} />
+      <Portal>
+        <Dialog visible={addItemFormVisible} onDismiss={CloseAddItemForm}>
+          <Dialog.Title>
+            <TextIntl id="title.item.add" />
+          </Dialog.Title>
+          <Dialog.Content>
+            <View style={Styles.imageContainer}>
+              <FormAvatar size={128} type="base64" onChange={setImage} square />
+            </View>
+            <FormInput label="item.name" value={name} returnKeyType="next" onChangeText={setName} />
+            <FormInput label="item.desc" value={desc} returnKeyType="next" onChangeText={setDesc} />
+            <Switch value={addLocation} onValueChange={setAddLocation} leftText="text.location" />
+          </Dialog.Content>
+          <Dialog.Actions style={Styles.dialogActionsButtons}>
+            <ButtonIntl title="button.cancel" uppercase onSubmit={CloseAddItemForm} />
+            <FirebaseConsumer>
+              {(firebase) => (
+                <FormButton
+                  title="addItem"
+                  uppercase
+                  onSubmit={() => {
+                    const item = {
+                      name,
+                      desc,
+                      email: firebase.user.email,
+                      id: firebase.user.uid,
+                      photoURL: image && { uri: image },
+                    };
+                    const saveItem = addLocation
+                      ? location
+                          .getPosition()
+                          .then(({ longitude, latitude }) =>
+                            itemsCollection.add({ ...item, longitude, latitude })
+                          )
+                          .catch()
+                      : itemsCollection.add(item);
+
+                    saveItem.then(CloseAddItemForm);
+                  }}
+                />
+              )}
+            </FirebaseConsumer>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </>
   );
 };

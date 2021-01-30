@@ -39,12 +39,19 @@ const SignUpForm = ({ onSubmit }) => {
     <KeyboardAvoidingView behavior="padding">
       <FormInput
         label="email"
+        value={email}
         keyboardType="email-address"
         returnKeyType="next"
         onChangeText={setEmail}
       />
       {errors.email && <Text>{errors.email[0]}</Text>}
-      <FormInput label="password" returnKeyType="go" onChangeText={setPassword} secureTextEntry />
+      <FormInput
+        label="password"
+        value={password}
+        returnKeyType="go"
+        onChangeText={setPassword}
+        secureTextEntry
+      />
       {errors.password && <Text>{errors.password[0]}</Text>}
       <FormButton
         title="signUp"

@@ -1,10 +1,31 @@
 {
+  "title": {
+
+    "item": {
+      
+      "add": "Ajouter un objet"
+
+    }
+
+  },
+
+  "text": {
+
+    "location": "Localisation"
+
+  },
+  
   "form": {
 
     "input": {
 
-      "email": "email",
-      "password": "mot de passe"
+      "email": "Email",
+      "password": "Mot de passe",
+
+      "item": {
+        "name": "Nom",
+        "desc": "Description"
+      }
 
     },
 
@@ -12,25 +33,26 @@
 
       "missing": {
 
-        "email": "l'adresse e-mail est requis.",
-        "password": "le mot de passe est requis."
+        "email": "L'adresse e-mail est requis.",
+        "password": "Le mot de passe est requis."
 
       },
 
       "invalid": {
 
-        "email": "le format de l'adresse e-mail est invalide."
+        "email": "Le format de l'adresse e-mail est invalide."
 
       },
 
-      "signIn": "les informations d'identification invalides.",
-      "signUp": "l'adresse e-mail déjà utilisée."
+      "signIn": "Les informations d'identification invalides.",
+      "signUp": "L'adresse e-mail déjà utilisée."
     },
 
     "submit": {
 
-      "signIn": "se connecter",
-      "signUp": "s'inscrire"
+      "signIn": "Se connecter",
+      "signUp": "S'inscrire",
+      "addItem": "Ajouter"
 
     }
 
@@ -38,13 +60,14 @@
   
   "link": {
 
-    "signUp": "s'inscrire"
+    "signUp": "S'inscrire"
 
   },
 
   "button": {
 
-    "signOut": "deconnexion"
+    "signOut": "Deconnexion",
+    "cancel": "Annuler"
 
   }
 }

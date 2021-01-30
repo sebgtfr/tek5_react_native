@@ -1,47 +1,56 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-//import { result } from 'validate.js';
 
-const useImage = (type, methode) => {
+const useImage = (type) => {
   const [image, setImage] = React.useState(null);
+
+  const options = {
+    allowsEditing: true,
+    aspect: [4, 3],
+    base64: true,
+    quality: 0,
+  };
+
   const pickImage = React.useCallback(
-    async (methode) => {
-      if (Platform.OS !== 'web') {
-        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-          return;
-        }
-        if (methode === false) {
-          const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            base64: true,
-            quality: 0,
-          });
+    (methode) =>
+      (Platform.OS !== 'web'
+        ? ImagePicker.requestMediaLibraryPermissionsAsync()
+        : Promise.resolve({ status: 'granted' })
+      )
+        .then(({ status }) => (status === 'granted' ? Promise.resolve() : Promise.reject()))
+        .then(() =>
+          methode
+            ? ImagePicker.launchCameraAsync({
+                ...options,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+              })
+            : ImagePicker.launchImageLibraryAsync({
+                ...options,
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+              })
+        )
+        .then((result) => {
           if (!result.cancelled) {
-            const tmp = 'data:image/jpeg;base64,' + result.base64;
-            setImage(type == 'uri' ? result.uri : tmp);
+            const { uri, base64 } = result;
+            const base64Img = `data:image/jpeg;base64,${base64}`;
+
+            setImage(type === 'uri' ? uri : base64Img);
           }
-        } else {
-          const result = await ImagePicker.launchCameraAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            base64: true,
-            quality: 0,
-          });
-          if (!result.cancelled) {
-            const tmp = 'data:image/jpeg;base64,' + result.base64;
-            setImage(type == 'uri' ? result.uri : tmp);
-          }
-        }
-      }
-    },
-    [setImage]
+        })
+        .catch(),
+    [options, type]
   );
-  return React.useMemo(() => ({ image, pickImage }), [image, pickImage]);
+
+  const pickImageFromGallery = React.useCallback(() => pickImage(false), [pickImage]);
+  const pickImageFromCamera = React.useCallback(() => pickImage(true), [pickImage]);
+
+  return React.useMemo(() => ({ image, pickImage, pickImageFromGallery, pickImageFromCamera }), [
+    image,
+    pickImage,
+    pickImageFromGallery,
+    pickImageFromCamera,
+  ]);
 };
 
 export default useImage;

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Firebase from '../../configs/Firebase';
+import useCollection from '../../hooks/useCollection';
 
 // Reducer
 import Reducer, { ReducerDefaultState } from './Reducer';
@@ -24,6 +25,23 @@ const FirebaseProvider = ({ children }) => {
     []
   );
 
+  const userCollection = useCollection('users');
+
+  const signUp = React.useCallback(
+    (email, password) => Auth.signUp(userCollection, email, password),
+    [userCollection]
+  );
+
+  const edit = React.useCallback(
+    (option) =>
+      Firebase.auth()
+        .currentUser.updateProfile(option)
+        .then(() => userCollection.doc(Firebase.auth().currentUser.uid).update(option))
+        .then(() => dispatch({ type: 'EDIT_USER', user: option }))
+        .catch(),
+    [userCollection]
+  );
+
   React.useEffect(onAuthStateChanged, [onAuthStateChanged]);
 
   const firebaseContext = React.useMemo(
@@ -33,9 +51,11 @@ const FirebaseProvider = ({ children }) => {
       isLogged: state.user !== null,
 
       // Auth callbacks
-      ...Auth,
+      ...{ ...Auth, signUp },
+
+      edit,
     }),
-    [state]
+    [edit, signUp, state]
   );
 
   return <FirebaseContext.Provider value={firebaseContext}>{children}</FirebaseContext.Provider>;

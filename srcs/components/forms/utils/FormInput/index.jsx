@@ -5,11 +5,12 @@ import { TextInput } from 'react-native-paper';
 import { IntlConsumer } from '../../../../providers/IntlProvider';
 import Styles from './Styles';
 
-const FormInput = ({ label, keyboardType, returnKeyType, onChangeText, secureTextEntry }) => (
+const FormInput = ({ label, value, keyboardType, returnKeyType, onChangeText, secureTextEntry }) => (
   <IntlConsumer>
     {(intl) => (
       <TextInput
         label={intl.t(`form.input.${label}`)}
+        value={value}
         style={Styles.input}
         numberOfLines={1}
         autoCapitalize="none"
@@ -25,6 +26,7 @@ const FormInput = ({ label, keyboardType, returnKeyType, onChangeText, secureTex
 
 FormInput.propTypes = {
   label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   keyboardType: PropTypes.string,
   returnKeyType: PropTypes.string,
   onChangeText: PropTypes.func.isRequired,

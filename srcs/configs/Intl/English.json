@@ -1,10 +1,31 @@
 {
+  "title": {
+
+    "item": {
+      
+      "add": "Add item"
+
+    }
+
+  },
+
+  "text": {
+
+    "location": "Localisation"
+
+  },
+
   "form": {
 
     "input": {
 
-      "email": "email",
-      "password": "password"
+      "email": "Email",
+      "password": "Password",
+
+      "item": {
+        "name": "Name",
+        "desc": "Description"
+      }
 
     },
 
@@ -12,14 +33,14 @@
 
       "missing": {
 
-        "email": "email is required.",
-        "password": "password is required."
+        "email": "Email is required.",
+        "password": "Password is required."
 
       },
 
       "invalid": {
 
-        "email": "email format invalid."
+        "email": "Email format invalid."
 
       },
 
@@ -29,8 +50,9 @@
 
     "submit": {
 
-      "signIn": "sign in",
-      "signUp": "sign up"
+      "signIn": "Sign in",
+      "signUp": "Sign up",
+      "addItem": "Add"
 
     }
 
@@ -38,13 +60,14 @@
 
   "link": {
 
-    "signUp": "sign up"
+    "signUp": "Sign up"
 
   },
 
   "button": {
 
-    "signOut": "deconnection"
+    "signOut": "Deconnection",
+    "cancel": "Cancel"
 
   }
 }

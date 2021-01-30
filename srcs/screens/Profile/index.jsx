@@ -1,82 +1,34 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 
-import { FirebaseContext } from '../../providers/FirebaseProvider';
+import { Text } from 'react-native-paper';
+import { FirebaseConsumer } from '../../providers/FirebaseProvider';
 
 import { ButtonIntl } from '../../components/intl';
-
-import useImage from '../../hooks/useImage';
-
-import Avatar from '../../components/Avatar';
+import { FormAvatar } from '../../components/forms/utils';
 
 import Styles from './Styles';
-import avatar from '../../images/defaultAvatar.png';
-import { Button, Portal, Dialog, TextInput, RadioButton } from 'react-native-paper';
 
-const Profile = () => {
-  const firebase = React.useContext(FirebaseContext);
-  const { image, pickImage } = useImage('uri');
-  const [methodeChecked, setMethodeChecked] = React.useState(false);
-  const [isDialogVisible, setIsDialogVisible] = React.useState(false);
+const Profile = () => (
+  <View style={Styles.container}>
+    <FirebaseConsumer>
+      {(firebase) => (
+        <>
+          <FormAvatar
+            src={firebase.user.photoURL}
+            size={128}
+            type="uri"
+            onChange={(photoURL) => firebase.edit({ photoURL })}
+          />
+          {firebase.user.displayName && <Text>{firebase.user.displayName}</Text>}
+          <Text>{firebase.user.email}</Text>
+          <ButtonIntl uppercase title="button.signOut" onSubmit={() => firebase.signOut()} />
+        </>
+      )}
+    </FirebaseConsumer>
+  </View>
+);
 
-  React.useEffect(() => {
-    if (image !== null) firebase.edit({ photoURL: image });
-  }, [image]);
-  return (
-    <View style={Styles.container}>
-      <TouchableOpacity onPress={() => setIsDialogVisible(true)}>
-        <Portal>
-          <Dialog visible={isDialogVisible} onDismiss={() => setIsDialogVisible(false)}>
-            <Dialog.Title>Choose methode</Dialog.Title>
-            <Dialog.Content>
-              <Text>take picture from camera</Text>
-              <RadioButton
-                value="true"
-                status={methodeChecked === true ? 'checked' : 'unchecked'}
-                onPress={() => setMethodeChecked(true)}
-              />
-              <Text>take picture from gallery</Text>
-              <RadioButton
-                value="false"
-                status={methodeChecked === false ? 'checked' : 'unchecked'}
-                onPress={() => setMethodeChecked(false)}
-              />
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button
-                onPress={() => {
-                  setMethodeChecked(false);
-                  setIsDialogVisible(false);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                onPress={() => {
-                  setIsDialogVisible(false);
-                  pickImage(methodeChecked);
-
-                  setMethodeChecked(false);
-                }}
-              >
-                Submit
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
-        <Avatar src={firebase.user.photoURL ? { uri: firebase.user.photoURL } : avatar} />
-      </TouchableOpacity>
-
-      {firebase.user.displayName && <Text>{firebase.user.displayName}</Text>}
-      <Text>{firebase.user.email}</Text>
-      <ButtonIntl uppercase title="button.signOut" onSubmit={() => firebase.signOut()} />
-    </View>
-  );
-};
 Profile.propTypes = {};
 
 export default Profile;
-
-/*<TouchableOpacity onPress={pickImage}>
-        <Avatar src={firebase.user.photoURL ? { uri: firebase.user.photoURL } : avatar} />
-      </TouchableOpacity>*/

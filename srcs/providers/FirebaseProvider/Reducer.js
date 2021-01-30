@@ -12,6 +12,13 @@ const Reducer = (prevState, action) => {
         isLoading: false,
       };
 
+    case 'EDIT_USER':
+      return {
+        ...prevState,
+        user: { ...prevState.user, ...action.user },
+        isLoading: false,
+      };
+
     default:
       return prevState;
   }
