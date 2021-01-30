@@ -1,0 +1,42 @@
+[
+    {
+        "id": 0,
+        "name": "McDonald's",
+        "place": "Bar-Le-Duc",
+        "addr": "2A Rue des Romains, 55000 Bar-le-Duc",
+        "GPS": {
+            "latitude": 48.775828,
+            "longitude": 5.163564
+        }
+    },
+    {
+        "id": 1,
+        "name": "McDonald's",
+        "place": "Saint Dizier",
+        "addr": "6, Route De Bar Le Duc Avenue de la Loubert",
+        "GPS": {
+            "latitude": 48.626312,
+            "longitude": 5.964637
+        }
+    },
+    {
+        "id": 2,
+        "name": "McDonald's",
+        "place": "Saint Dizier",
+        "addr": "Route de Chaumont Centre Commercial du Chêne Saint-Amand",
+        "GPS": {
+            "latitude": 48.648829,
+            "longitude": 4.959289
+        }
+    },
+    {
+        "id": 3,
+        "name": "Burger King",
+        "place": "Saint Dizier",
+        "addr": "Route De Joinville Zone Commerciale Du Chêne Saint-Amand",
+        "GPS": {
+            "latitude": 48.626856,
+            "longitude": 4.966629
+        }
+    }
+]

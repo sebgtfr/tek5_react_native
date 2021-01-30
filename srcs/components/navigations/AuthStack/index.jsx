@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 // Screens
 import Home from '../../../screens/Home';
 import Profile from '../../../screens/Profile';
+import Map from '../../../screens/Map';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,16 @@ const AuthStack = () => (
         tabBarLabel: 'Home',
         tabBarIcon: ({ color, size }) => (
           <MaterialCommunityIcons name="home" color={color} size={size} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Map"
+      component={Map}
+      options={{
+        tabBarLabel: 'Map',
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="map" color={color} size={size} />
         ),
       }}
     />
