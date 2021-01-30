@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import { FirebaseContext } from '../../providers/FirebaseProvider';
 
-import { TextIntl, ButtonIntl } from '../../components/intl';
+import { ButtonIntl } from '../../components/intl';
 
 import useCollection from '../../hooks/useCollection';
 import useImage from '../../hooks/useImage';
