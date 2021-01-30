@@ -2,10 +2,8 @@ import React from 'react';
 import 'react-native-gesture-handler';
 
 import { NavigationContainer } from '@react-navigation/native';
-// import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 
 import { Provider as PaperProvider } from 'react-native-paper';
-import { DarkTheme } from './srcs/configs/Themes';
 
 import MultiProvider from './srcs/components/MultiProvider';
 import FirebaseProvider, { FirebaseConsumer } from './srcs/providers/FirebaseProvider';

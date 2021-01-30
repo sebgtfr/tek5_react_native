@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Screens
 import Home from '../../../screens/Home';
 import Profile from '../../../screens/Profile';
 import Map from '../../../screens/Map';
+
+import { TabBarIconHome, TabBarIconMap, TabBarIconProfile } from './TabBarIcon';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,9 +25,7 @@ const AuthStack = () => (
       component={Home}
       options={{
         tabBarLabel: 'Home',
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="home" color={color} size={size} />
-        ),
+        tabBarIcon: TabBarIconHome,
       }}
     />
     <Tab.Screen
@@ -35,9 +33,7 @@ const AuthStack = () => (
       component={Map}
       options={{
         tabBarLabel: 'Map',
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="map" color={color} size={size} />
-        ),
+        tabBarIcon: TabBarIconMap,
       }}
     />
     <Tab.Screen
@@ -45,9 +41,7 @@ const AuthStack = () => (
       component={Profile}
       options={{
         tabBarLabel: 'Profile',
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="account" color={color} size={size} />
-        ),
+        tabBarIcon: TabBarIconProfile,
       }}
     />
   </Tab.Navigator>

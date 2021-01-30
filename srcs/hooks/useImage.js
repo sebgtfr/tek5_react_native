@@ -5,12 +5,15 @@ import * as ImagePicker from 'expo-image-picker';
 const useImage = (type) => {
   const [image, setImage] = React.useState(null);
 
-  const options = {
-    allowsEditing: true,
-    aspect: [4, 3],
-    base64: true,
-    quality: 0,
-  };
+  const options = React.useMemo(
+    () => ({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+      quality: 0,
+    }),
+    []
+  );
 
   const pickImage = React.useCallback(
     (methode) =>
