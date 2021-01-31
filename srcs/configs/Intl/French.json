@@ -67,6 +67,7 @@
     "sold": "Vendu",
     "notSold": "Non vendu",
     "buy": "acheter",
-    "setSold": "déclarer vendu"
+    "setSold": "déclarer vendu",
+    "unSold": "remettre en vente"
   }
 }
