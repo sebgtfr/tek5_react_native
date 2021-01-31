@@ -1,53 +1,44 @@
 {
   "title": {
-
-    "item": {
-      
+    "item": {      
       "add": "Ajouter un objet"
-
     }
+  },
 
+  "navigation": {
+    "home": "Accueil",
+    "myItems": "Mes objets",
+    "profile": "Profil"
   },
 
   "text": {
-
     "location": "Localisation"
-
   },
   
   "form": {
-
     "input": {
-
       "email": "Email",
       "password": "Mot de passe",
-
       "item": {
         "name": "Nom",
         "desc": "Description",
         "price": "Prix"
       }
-
     },
 
     "error": {
-
       "missing": {
-
         "name": "Le nom est requis.",
         "desc": "La description est requis.",
         "price": "Le prix est requis.",
         "image": "L'image est requis.",
         "email": "L'adresse e-mail est requis.",
         "password": "Le mot de passe est requis."
-
       },
 
       "invalid": {
-
         "email": "Le format de l'adresse e-mail est invalide.",
         "price": "le prix doit être un nombre positif."
-
       },
 
       "signIn": "Les informations d'identification invalides.",
@@ -55,29 +46,22 @@
     },
 
     "submit": {
-
       "signIn": "Se connecter",
       "signUp": "S'inscrire",
       "addItem": "Ajouter"
-
     }
-
   },
   
   "link": {
-
     "signUp": "S'inscrire"
-
   },
 
   "button": {
-
     "signOut": "Deconnexion",
     "cancel": "Annuler",
     "sold": "Vendu",
     "notSold": "Non vendu",
     "buy": "acheter",
     "setSold": "déclarer vendu"
-
   }
 }
