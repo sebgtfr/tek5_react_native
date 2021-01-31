@@ -32,16 +32,6 @@ const FirebaseProvider = ({ children }) => {
     [userCollection]
   );
 
-  const edit = React.useCallback(
-    (option) =>
-      Firebase.auth()
-        .currentUser.updateProfile(option)
-        .then(() => userCollection.doc(Firebase.auth().currentUser.uid).update(option))
-        .then(() => dispatch({ type: 'EDIT_USER', user: option }))
-        .catch(),
-    [userCollection]
-  );
-
   const uploadFile = React.useCallback(
     (filename, uri, onProgress = undefined) =>
       fetch(uri)
@@ -60,6 +50,26 @@ const FirebaseProvider = ({ children }) => {
           );
         }),
     []
+  );
+
+  const edit = React.useCallback(
+    (option) =>
+      option.photoURL
+        ? uploadFile(`profile-${Firebase.auth().currentUser.uid}`, option.photoURL)
+            .then((photoURL) => ({ ...option, photoURL }))
+            .then((opt) =>
+              Firebase.auth()
+                .currentUser.updateProfile(opt)
+                .then(() => userCollection.doc(Firebase.auth().currentUser.uid).update(opt))
+            )
+            .then(() => dispatch({ type: 'EDIT_USER', user: option }))
+            .catch(() => undefined)
+        : Firebase.auth()
+            .currentUser.updateProfile(option)
+            .then(() => userCollection.doc(Firebase.auth().currentUser.uid).update(option))
+            .then(() => dispatch({ type: 'EDIT_USER', user: option }))
+            .catch(() => undefined),
+    [userCollection, uploadFile]
   );
 
   React.useEffect(onAuthStateChanged, [onAuthStateChanged]);
