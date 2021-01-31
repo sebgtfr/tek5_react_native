@@ -9,22 +9,65 @@ import FormList from '../../components/forms/utils/FormList';
 import { Firestore } from '../../configs/Firebase';
 import { FirebaseContext } from '../../providers/FirebaseProvider';
 import { ButtonIntl } from '../../components/intl';
+import Reducer, { defaultReducerValue } from './Reducer';
 
 const MyItems = () => {
   const firebase = React.useContext(FirebaseContext);
   const itemsCollection = React.useMemo(() => Firestore.collection('items'), []);
   const userId = React.useMemo(() => firebase.user.uid, [firebase.user.uid]);
 
-  const [soldItems, setSoldItems] = React.useState([]);
-  const [notSoldItems, setNotSoldItems] = React.useState([]);
+  //const [soldItems, setSoldItems] = React.useState([]);
+  //const [notSoldItems, setNotSoldItems] = React.useState([]);
   const [sold, setSold] = React.useState(false);
+
+  const [{ soldItems, notSoldItems }, dispatch] = React.useReducer(Reducer, defaultReducerValue);
+
+  const setSoldItems = React.useCallback(
+    (pSoldItems) => dispatch({ type: 'SET_SOLD_ITEMS', soldItems: pSoldItems }),
+    []
+  );
+  const setNotSoldItems = React.useCallback(
+    (pNotSoldItems) => dispatch({ type: 'SET_NOT_SOLD_ITEMS', notSoldItems: pNotSoldItems }),
+    []
+  );
+  const updateItems = React.useCallback(
+    (pNotSoldItems, pSoldItems, pSold, pIndex) =>
+      dispatch({
+        type: 'UPDATE_LIST',
+        notSoldItems: pNotSoldItems,
+        soldItems: pSoldItems,
+        sold: pSold,
+        index: pIndex,
+      }),
+    []
+  );
 
   useFocusEffect(
     React.useCallback(() => {
-      const soldItemsTmp = [];
-      const notSoldItemsTmp = [];
+      const soldItemsTmp = [
+        {
+          name: 'test',
+          desc: 'test',
+          email: 'test',
+          userId: 'test',
+          sold: true,
+          price: 50,
+          key: 'test',
+        },
+      ];
+      const notSoldItemsTmp = [
+        {
+          name: 'test2',
+          desc: 'test2',
+          email: 'test2',
+          userId: 'test2',
+          sold: false,
+          price: 50,
+          key: 'test2',
+        },
+      ];
 
-      itemsCollection
+      /*itemsCollection
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -41,7 +84,9 @@ const MyItems = () => {
           setSoldItems(soldItemsTmp);
           setNotSoldItems(notSoldItemsTmp);
         })
-        .catch(() => undefined);
+        .catch(() => undefined);*/
+      setSoldItems(soldItemsTmp);
+      setNotSoldItems(notSoldItemsTmp);
     }, [userId, itemsCollection])
   );
 
@@ -52,7 +97,13 @@ const MyItems = () => {
         <ButtonIntl uppercase title="button.sold" onSubmit={() => setSold(true)} />
       </View>
       <ItemForm />
-      <FormList items={sold ? soldItems : notSoldItems} myItems />
+      <FormList
+        items={sold ? soldItems : notSoldItems}
+        myItems
+        onChange={updateItems}
+        soldItems={soldItems}
+        notSoldItems={notSoldItems}
+      />
     </View>
   );
 };

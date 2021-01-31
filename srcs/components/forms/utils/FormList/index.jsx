@@ -7,7 +7,7 @@ import { ButtonIntl } from '../../../intl';
 import useCollection from '../../../../hooks/useCollection';
 import Avatar from '../../../utils/Avatar';
 
-const FormList = ({ items, myItems }) => {
+const FormList = ({ items, myItems, onChange, soldItems, notSoldItems }) => {
   const itemsCollection = useCollection('items');
 
   const [visible, setVisible] = React.useState(false);
@@ -26,7 +26,7 @@ const FormList = ({ items, myItems }) => {
   return (
     <FlatList
       data={items}
-      renderItem={({ item: { name, desc, email, photoURL, key, sold } }) => (
+      renderItem={({ item: { name, desc, email, photoURL, key, sold }, index }) => (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <TouchableOpacity onPress={show}>
             <Avatar src={photoURL} size={128} square />
@@ -52,7 +52,8 @@ const FormList = ({ items, myItems }) => {
                   uppercase
                   title={sold ? 'button.unSold' : myItems ? 'button.setSold' : 'button.buy'}
                   onSubmit={() => {
-                    sold ? setToUnSold(key) : setToSold(key);
+                    //sold ? setToUnSold(key) : setToSold(key);
+                    onChange(soldItems, notSoldItems, sold, index);
                     hide();
                   }}
                 />
@@ -77,6 +78,27 @@ FormList.propTypes = {
     })
   ).isRequired,
   myItems: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  soldItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      desc: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      sold: PropTypes.bool.isRequired,
+      photoURL: PropTypes.string.isRequired,
+      key: PropTypes.string.isRequired,
+    })
+  ),
+  notSoldItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      desc: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      sold: PropTypes.bool.isRequired,
+      photoURL: PropTypes.string.isRequired,
+      key: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default FormList;

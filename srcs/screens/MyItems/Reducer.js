@@ -2,38 +2,29 @@ export const defaultReducerValue = [];
 
 const Reducer = (prevState = defaultReducerValue, action) => {
   switch (action.type) {
-    case 'UPDATE_NAME':
+    case 'SET_SOLD_ITEMS':
       return {
         ...prevState,
-        name: action.name,
+        soldItems: action.soldItems,
       };
-    case 'UPDATE_DESC':
+    case 'SET_NOT_SOLD_ITEMS':
       return {
         ...prevState,
-        desc: action.desc,
+        notSoldItems: action.notSoldItems,
       };
-    case 'UPDATE_PRICE':
+    case 'UPDATE_LIST':
+      if (action.sold) {
+        action.notSoldItems.push(action.soldItems[action.index]);
+        action.soldItems.splice(index, 1);
+      } else {
+        action.soldItems.push(action.notSoldItems[action.index]);
+        action.notSoldItems.splice(index, 1);
+      }
       return {
         ...prevState,
-        price: action.price,
+        soldItems: action.soldItems,
+        notSoldItems: action.notSoldItems,
       };
-    case 'UPDATE_ADD_LOCATION':
-      return {
-        ...prevState,
-        addLocation: action.addLocation,
-      };
-    case 'UPDATE_IMAGE':
-      return {
-        ...prevState,
-        image: action.image,
-      };
-    case 'OPEN_ADD_ITEM_FORM':
-      return {
-        ...prevState,
-        addItemFormVisible: true,
-      };
-    case 'CLOSE_ADD_ITEM_FORM':
-      return { ...defaultReducerValue, addLocation: prevState.addLocation };
     default:
       return prevState;
   }
