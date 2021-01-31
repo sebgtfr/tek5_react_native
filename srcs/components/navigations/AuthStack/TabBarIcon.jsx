@@ -16,13 +16,13 @@ export const TabBarIconHome = ({ color, size }) => (
 TabBarIconHome.propTypes = TabBarIconPropTypes;
 // !HOME
 
-// MAP
-export const TabBarIconMap = ({ color, size }) => (
-  <MaterialCommunityIcons name="map" color={color} size={size} />
+// MYITEMS
+export const TabBarIconMyItems = ({ color, size }) => (
+  <MaterialCommunityIcons name="format-list-bulleted-square" color={color} size={size} />
 );
 
-TabBarIconMap.propTypes = TabBarIconPropTypes;
-// !MAP
+TabBarIconMyItems.propTypes = TabBarIconPropTypes;
+// !MYITEMS
 
 // PROFILE
 export const TabBarIconProfile = ({ color, size }) => (

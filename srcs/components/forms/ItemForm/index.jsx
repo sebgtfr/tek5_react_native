@@ -72,6 +72,7 @@ const ItemForm = () => {
                       email: firebase.user.email,
                       id: firebase.user.uid,
                       photoURL: image && { uri: image },
+                      solde: false,
                     };
                     const saveItem = addLocation
                       ? location

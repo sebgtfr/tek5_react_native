@@ -67,7 +67,9 @@
   "button": {
 
     "signOut": "Deconnexion",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "sold": "Vendu",
+    "notSold": "Non vendu"
 
   }
 }

@@ -5,9 +5,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // Screens
 import Home from '../../../screens/Home';
 import Profile from '../../../screens/Profile';
-import Map from '../../../screens/Map';
+import MyItems from '../../../screens/MyItems';
 
-import { TabBarIconHome, TabBarIconMap, TabBarIconProfile } from './TabBarIcon';
+import { TabBarIconHome, TabBarIconMyItems, TabBarIconProfile } from './TabBarIcon';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,11 +29,11 @@ const AuthStack = () => (
       }}
     />
     <Tab.Screen
-      name="Map"
-      component={Map}
+      name="MyItems"
+      component={MyItems}
       options={{
-        tabBarLabel: 'Map',
-        tabBarIcon: TabBarIconMap,
+        tabBarLabel: 'MyItems',
+        tabBarIcon: TabBarIconMyItems,
       }}
     />
     <Tab.Screen
