@@ -5,7 +5,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import Styles from './Styles';
 
 import ItemForm from '../../components/forms/ItemForm';
-import FormList from '../../components/forms/utils/FormList';
+import { ItemsList } from '../../components/utils';
 import { Firestore } from '../../configs/Firebase';
 import { FirebaseContext } from '../../providers/FirebaseProvider';
 import { ButtonIntl } from '../../components/intl';
@@ -16,8 +16,6 @@ const MyItems = () => {
   const itemsCollection = React.useMemo(() => Firestore.collection('items'), []);
   const userId = React.useMemo(() => firebase.user.uid, [firebase.user.uid]);
 
-  //const [soldItems, setSoldItems] = React.useState([]);
-  //const [notSoldItems, setNotSoldItems] = React.useState([]);
   const [sold, setSold] = React.useState(false);
 
   const [{ soldItems, notSoldItems }, dispatch] = React.useReducer(Reducer, defaultReducerValue);
@@ -31,43 +29,21 @@ const MyItems = () => {
     []
   );
   const updateItems = React.useCallback(
-    (pNotSoldItems, pSoldItems, pSold, pIndex) =>
+    (pSold, index) =>
       dispatch({
         type: 'UPDATE_LIST',
-        notSoldItems: pNotSoldItems,
-        soldItems: pSoldItems,
         sold: pSold,
-        index: pIndex,
+        index,
       }),
     []
   );
 
   useFocusEffect(
     React.useCallback(() => {
-      const soldItemsTmp = [
-        {
-          name: 'test',
-          desc: 'test',
-          email: 'test',
-          userId: 'test',
-          sold: true,
-          price: 50,
-          key: 'test',
-        },
-      ];
-      const notSoldItemsTmp = [
-        {
-          name: 'test2',
-          desc: 'test2',
-          email: 'test2',
-          userId: 'test2',
-          sold: false,
-          price: 50,
-          key: 'test2',
-        },
-      ];
+      const soldItemsTmp = [];
+      const notSoldItemsTmp = [];
 
-      /*itemsCollection
+      itemsCollection
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -84,10 +60,8 @@ const MyItems = () => {
           setSoldItems(soldItemsTmp);
           setNotSoldItems(notSoldItemsTmp);
         })
-        .catch(() => undefined);*/
-      setSoldItems(soldItemsTmp);
-      setNotSoldItems(notSoldItemsTmp);
-    }, [userId, itemsCollection])
+        .catch(() => undefined);
+    }, [userId, itemsCollection, setNotSoldItems, setSoldItems])
   );
 
   return (
@@ -97,12 +71,13 @@ const MyItems = () => {
         <ButtonIntl uppercase title="button.sold" onSubmit={() => setSold(true)} />
       </View>
       <ItemForm />
-      <FormList
+
+      <ItemsList
         items={sold ? soldItems : notSoldItems}
         myItems
-        onChange={updateItems}
-        soldItems={soldItems}
-        notSoldItems={notSoldItems}
+        onUpdate={(index) => {
+          updateItems(sold, index);
+        }}
       />
     </View>
   );

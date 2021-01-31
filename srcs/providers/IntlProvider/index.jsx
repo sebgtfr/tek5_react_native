@@ -1,11 +1,9 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Intl from '../../configs/Intl';
-
 
 export const IntlContext = React.createContext({
   locale: Localization.locale,
@@ -19,11 +17,14 @@ const IntlProvider = ({ children }) => {
   const [locale, setLocale] = React.useState(Localization.locale.split('-')[0]);
   const languages = React.useMemo(() => Object.keys(Intl.translations), []);
 
-  const changeLocale = React.useCallback((pLocale) => {
-    if (languages.indexOf(pLocale) !== -1) {
-      AsyncStorage.setItem(preferenceIntlName, pLocale).then(() => pLocale && setLocale(pLocale));
-    }
-  }, [languages]);
+  const changeLocale = React.useCallback(
+    (pLocale) => {
+      if (languages.indexOf(pLocale) !== -1) {
+        AsyncStorage.setItem(preferenceIntlName, pLocale).then(() => pLocale && setLocale(pLocale));
+      }
+    },
+    [languages]
+  );
 
   Intl.locale = locale;
 
@@ -37,7 +38,7 @@ const IntlProvider = ({ children }) => {
       locale,
       changeLocale,
       languages,
-      t: Intl.t
+      t: Intl.t,
     }),
     [locale, changeLocale, languages]
   );

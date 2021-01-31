@@ -1,6 +1,12 @@
-export const defaultReducerValue = [];
+export const defaultReducerValue = {
+  soldItems: [],
+  notSoldItems: [],
+};
 
-const Reducer = (prevState = defaultReducerValue, action) => {
+const Reducer = (prevState, action) => {
+  let src;
+  let dest;
+
   switch (action.type) {
     case 'SET_SOLD_ITEMS':
       return {
@@ -14,17 +20,27 @@ const Reducer = (prevState = defaultReducerValue, action) => {
       };
     case 'UPDATE_LIST':
       if (action.sold) {
-        action.notSoldItems.push(action.soldItems[action.index]);
-        action.soldItems.splice(index, 1);
+        src = prevState.soldItems.slice();
+        dest = prevState.notSoldItems.slice();
       } else {
-        action.soldItems.push(action.notSoldItems[action.index]);
-        action.notSoldItems.splice(index, 1);
+        src = prevState.notSoldItems.slice();
+        dest = prevState.soldItems.slice();
       }
-      return {
-        ...prevState,
-        soldItems: action.soldItems,
-        notSoldItems: action.notSoldItems,
-      };
+
+      dest.push({ ...src[action.index], sold: !action.sold });
+      src.splice(action.index, 1);
+
+      return action.sold
+        ? {
+            ...prevState,
+            soldItems: src,
+            notSoldItems: dest,
+          }
+        : {
+            ...prevState,
+            soldItems: dest,
+            notSoldItems: src,
+          };
     default:
       return prevState;
   }

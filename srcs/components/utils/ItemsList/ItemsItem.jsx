@@ -14,6 +14,7 @@ const ItemsItem = ({
   item: { name, desc, email, photoURL, sold, price, key },
   myItems,
   onUpdate,
+  index,
 }) => {
   const itemsCollection = useCollection('items');
 
@@ -26,10 +27,10 @@ const ItemsItem = ({
       itemsCollection
         .doc(key)
         .update({ sold: !sold })
-        .then(onUpdate)
+        .then(() => onUpdate(index))
         .catch(() => undefined)
         .finally(hide),
-    [itemsCollection, key, sold, hide, onUpdate]
+    [itemsCollection, key, sold, hide, onUpdate, index]
   );
 
   return (
@@ -53,7 +54,7 @@ const ItemsItem = ({
             <ButtonIntl uppercase title="button.cancel" onSubmit={hide} />
             <ButtonIntl
               uppercase
-              title={(sold && 'button.unSold') || myItems ? 'button.setSold' : 'button.buy'}
+              title={(sold && 'button.unSold') || (myItems ? 'button.setSold' : 'button.buy')}
               onSubmit={toggleSold}
             />
           </Dialog.Content>
@@ -76,11 +77,8 @@ export const ItemShapeProps = {
 ItemsItem.propTypes = {
   item: PropTypes.shape(ItemShapeProps).isRequired,
   myItems: PropTypes.bool.isRequired,
-  onUpdate: PropTypes.func,
-};
-
-ItemsItem.defaultProps = {
-  onUpdate: () => undefined,
+  onUpdate: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default ItemsItem;
