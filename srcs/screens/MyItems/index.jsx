@@ -6,17 +6,18 @@ import Styles from './Styles';
 
 import ItemForm from '../../components/forms/ItemForm';
 import FormList from '../../components/forms/utils/FormList';
-import useCollection from '../../hooks/useCollection';
+import { Firestore } from '../../configs/Firebase';
 import { FirebaseContext } from '../../providers/FirebaseProvider';
 import { ButtonIntl } from '../../components/intl';
 
 const MyItems = () => {
-  const itemsCollection = useCollection('items');
+  const firebase = React.useContext(FirebaseContext);
+  const itemsCollection = React.useMemo(() => Firestore.collection('items'), []);
+  const userId = React.useMemo(() => firebase.user.uid, [firebase.user.uid]);
 
   const [soldItems, setSoldItems] = React.useState([]);
   const [notSoldItems, setNotSoldItems] = React.useState([]);
   const [sold, setSold] = React.useState(false);
-  const firebase = React.useContext(FirebaseContext);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -27,7 +28,7 @@ const MyItems = () => {
         querySnapshot.forEach((doc) => {
           const tmp = doc.data();
 
-          if (tmp.userId === firebase.user.uid) {
+          if (tmp.userId === userId) {
             if (tmp.sold) {
               soldItemsTmp.push({ ...tmp, key: doc.id });
             } else {
@@ -38,7 +39,7 @@ const MyItems = () => {
         setSoldItems(soldItemsTmp);
         setNotSoldItems(notSoldItemsTmp);
       });
-    }, [firebase.user.uid, itemsCollection])
+    }, [userId, itemsCollection])
   );
 
   return (
