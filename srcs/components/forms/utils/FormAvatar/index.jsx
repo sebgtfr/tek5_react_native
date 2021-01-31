@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { TouchableOpacity } from 'react-native';
-import { Portal, Dialog, IconButton, Colors } from 'react-native-paper';
+import { Portal, Dialog, IconButton } from 'react-native-paper';
 
 import Avatar from '../../../utils/Avatar';
 
 import useImage from '../../../../hooks/useImage';
+
+import { ThemeConsumer } from '../../../../providers/ThemeProvider';
 
 const FormAvatar = ({ src, size, type, onChange, square }) => {
   const { image, pickImageFromGallery, pickImageFromCamera } = useImage(type);
@@ -30,18 +32,28 @@ const FormAvatar = ({ src, size, type, onChange, square }) => {
       <Portal>
         <Dialog visible={visible} onDismiss={hide}>
           <Dialog.Content style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <IconButton
-              icon="folder"
-              size={64}
-              color={Colors.deepPurple900}
-              onPress={pickImageFromGallery}
-            />
-            <IconButton
-              icon="camera"
-              size={64}
-              color={Colors.deepPurple900}
-              onPress={pickImageFromCamera}
-            />
+            <ThemeConsumer>
+              {({
+                theme: {
+                  colors: { primary },
+                },
+              }) => (
+                <>
+                  <IconButton
+                    icon="folder"
+                    size={64}
+                    color={primary}
+                    onPress={pickImageFromGallery}
+                  />
+                  <IconButton
+                    icon="camera"
+                    size={64}
+                    color={primary}
+                    onPress={pickImageFromCamera}
+                  />
+                </>
+              )}
+            </ThemeConsumer>
           </Dialog.Content>
         </Dialog>
       </Portal>

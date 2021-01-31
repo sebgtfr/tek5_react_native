@@ -3,7 +3,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as Localization from 'expo-localization';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Intl from '../../configs/Intl';
+
 
 export const IntlContext = React.createContext({
   locale: Localization.locale,
@@ -12,26 +14,32 @@ export const IntlContext = React.createContext({
 export const IntlConsumer = IntlContext.Consumer;
 
 const IntlProvider = ({ children }) => {
-  const [locale, setLocale] = React.useState(Localization.locale);
-  const getAvailableLanguages = React.useCallback(() => Object.keys(Intl.translations), []);
+  const preferenceIntlName = 'intl_preferences';
 
-  const changeLocal = React.useCallback((_locale) => {
-    if (getAvailableLanguages.indexOf(_locale) !== -1) {
-      setLocale(_locale);
+  const [locale, setLocale] = React.useState(Localization.locale.split('-')[0]);
+  const languages = React.useMemo(() => Object.keys(Intl.translations), []);
+
+  const changeLocale = React.useCallback((pLocale) => {
+    if (languages.indexOf(pLocale) !== -1) {
+      AsyncStorage.setItem(preferenceIntlName, pLocale).then(() => pLocale && setLocale(pLocale));
     }
-  }, [getAvailableLanguages]);
+  }, [languages]);
 
   Intl.locale = locale;
+
+  React.useEffect(() => {
+    AsyncStorage.getItem(preferenceIntlName).then((pLocale) => pLocale && setLocale(pLocale));
+  }, []);
 
   const intlContext = React.useMemo(
     () => ({
       // Attributs
       locale,
-      changeLocal,
-      getAvailableLanguages,
+      changeLocale,
+      languages,
       t: Intl.t
     }),
-    [locale, changeLocal, getAvailableLanguages]
+    [locale, changeLocale, languages]
   );
 
   return <IntlContext.Provider value={intlContext}>{children}</IntlContext.Provider>;

@@ -16,7 +16,7 @@ const ThemeProvider = ({ children }) => {
   const preferenceCookieName = 'theme_preferences';
 
   React.useEffect(() => {
-    AsyncStorage.getItem(preferenceCookieName).then(setName);
+    AsyncStorage.getItem(preferenceCookieName).then((themeName) => themeName && setName(themeName));
   }, []);
 
   const change = React.useCallback(

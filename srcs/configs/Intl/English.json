@@ -1,53 +1,49 @@
 {
   "title": {
-
     "item": {
-      
       "add": "Add item"
-
     }
+  },
 
+  "navigation": {
+    "home": "Home",
+    "myItems": "My items",
+    "profile": "Profile"
+  },
+
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
   },
 
   "text": {
-
     "location": "Localisation"
-
   },
 
   "form": {
-
     "input": {
-
       "email": "Email",
       "password": "Password",
-
       "item": {
         "name": "Name",
         "desc": "Description",
         "price": "Price"
       }
-
     },
 
     "error": {
-
       "missing": {
-
         "name": "Name is required.",
         "desc": "Description is required.",
         "price": "Price is required.",
         "image": "Picture is required.",
         "email": "Email is required.",
         "password": "Password is required."
-
       },
 
       "invalid": {
-
         "email": "Email format invalid.",
         "price": "Price must be a unsigned number."
-
       },
 
       "signIn": "Invalid credentials.",
@@ -55,25 +51,22 @@
     },
 
     "submit": {
-
       "signIn": "Sign in",
       "signUp": "Sign up",
       "addItem": "Add"
-
     }
-
   },
 
   "link": {
-
     "signUp": "Sign up"
-
   },
 
   "button": {
-
     "signOut": "Deconnection",
-    "cancel": "Cancel"
-
+    "cancel": "Cancel",
+    "sold": "Sold",
+    "notSold": "Not sold",
+    "buy": "Buy",
+    "setSold": "define as sold"
   }
 }

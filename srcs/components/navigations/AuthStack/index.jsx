@@ -9,6 +9,8 @@ import MyItems from '../../../screens/MyItems';
 
 import { TabBarIconHome, TabBarIconMyItems, TabBarIconProfile } from './TabBarIcon';
 
+import { IntlConsumer } from '../../../providers/IntlProvider';
+
 const Tab = createBottomTabNavigator();
 
 const tabBarOptions = {
@@ -19,32 +21,36 @@ const tabBarOptions = {
 };
 
 const AuthStack = () => (
-  <Tab.Navigator initialRouteName="Home" tabBarOptions={tabBarOptions}>
-    <Tab.Screen
-      name="Home"
-      component={Home}
-      options={{
-        tabBarLabel: 'Home',
-        tabBarIcon: TabBarIconHome,
-      }}
-    />
-    <Tab.Screen
-      name="MyItems"
-      component={MyItems}
-      options={{
-        tabBarLabel: 'MyItems',
-        tabBarIcon: TabBarIconMyItems,
-      }}
-    />
-    <Tab.Screen
-      name="Profile"
-      component={Profile}
-      options={{
-        tabBarLabel: 'Profile',
-        tabBarIcon: TabBarIconProfile,
-      }}
-    />
-  </Tab.Navigator>
+  <IntlConsumer>
+    {({ t }) => (
+      <Tab.Navigator initialRouteName="Home" tabBarOptions={tabBarOptions}>
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarLabel: t('navigation.home'),
+            tabBarIcon: TabBarIconHome,
+          }}
+        />
+        <Tab.Screen
+          name="MyItems"
+          component={MyItems}
+          options={{
+            tabBarLabel: t('navigation.myItems'),
+            tabBarIcon: TabBarIconMyItems,
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            tabBarLabel: t('navigation.profile'),
+            tabBarIcon: TabBarIconProfile,
+          }}
+        />
+      </Tab.Navigator>
+    )}
+  </IntlConsumer>
 );
 
 AuthStack.propTypes = {};
