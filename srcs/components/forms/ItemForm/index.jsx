@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { View } from 'react-native';
-import { Portal, Dialog, FAB } from 'react-native-paper';
+import { Portal, Dialog, FAB, Text } from 'react-native-paper';
 
 import { ButtonIntl, TextIntl } from '../../intl';
 import { FormButton, FormInput, FormAvatar } from '../utils';
@@ -11,6 +11,7 @@ import useCollection from '../../../hooks/useCollection';
 import useLocation from '../../../hooks/useLocation';
 
 import { FirebaseConsumer } from '../../../providers/FirebaseProvider';
+import { IntlContext } from '../../../providers/IntlProvider';
 
 import Reducer, { defaultReducerValue } from './Reducer';
 
@@ -19,14 +20,51 @@ import Styles from './Styles';
 const ItemForm = () => {
   const location = useLocation();
   const itemsCollection = useCollection('items');
+  const intl = React.useContext(IntlContext);
 
-  const [{ name, desc, addLocation, image, addItemFormVisible }, dispatch] = React.useReducer(
-    Reducer,
-    defaultReducerValue
+  const constraints = {
+    name: {
+      presence: {
+        allowEmpty: false,
+        message: intl.t('form.error.missing.name'),
+      },
+    },
+    desc: {
+      presence: {
+        allowEmpty: false,
+        message: intl.t('form.error.missing.desc'),
+      },
+    },
+    price: {
+      presence: {
+        allowEmpty: false,
+        message: intl.t('form.error.missing.price'),
+      },
+      format: {
+        pattern: /\d/,
+        message: intl.t('form.error.invalid.price'),
+      },
+    },
+    image: {
+      presence: {
+        allowEmpty: false,
+        message: intl.t('form.error.missing.image'),
+      },
+    },
+  };
+
+  const [
+    { name, desc, addLocation, image, addItemFormVisible, price },
+    dispatch,
+  ] = React.useReducer(Reducer, defaultReducerValue);
+  const [errors, setErrors] = React.useState({});
+
+  const setName = React.useCallback((pName) => dispatch({ type: 'UPDATE_NAME', name: pName }), []);
+  const setDesc = React.useCallback((pDesc) => dispatch({ type: 'UPDATE_DESC', desc: pDesc }), []);
+  const setPrice = React.useCallback(
+    (pPrice) => dispatch({ type: 'UPDATE_PRICE', price: pPrice }),
+    []
   );
-
-  const setName = React.useCallback((_name) => dispatch({ type: 'UPDATE_NAME', name: _name }), []);
-  const setDesc = React.useCallback((_desc) => dispatch({ type: 'UPDATE_DESC', desc: _desc }), []);
   const setAddLocation = React.useCallback(
     (_addLocation) => dispatch({ type: 'UPDATE_ADD_LOCATION', addLocation: _addLocation }),
     []
@@ -53,9 +91,20 @@ const ItemForm = () => {
           <Dialog.Content>
             <View style={Styles.imageContainer}>
               <FormAvatar size={128} type="uri" onChange={setImage} square />
+              {errors.image && <Text>{errors.image[0]}</Text>}
             </View>
             <FormInput label="item.name" value={name} returnKeyType="next" onChangeText={setName} />
+            {errors.name && <Text>{errors.name[0]}</Text>}
             <FormInput label="item.desc" value={desc} returnKeyType="next" onChangeText={setDesc} />
+            {errors.desc && <Text>{errors.desc[0]}</Text>}
+            <FormInput
+              label="item.price"
+              value={price}
+              returnKeyType="next"
+              onChangeText={setPrice}
+              keyboardType="numeric"
+            />
+            {errors.price && <Text>{errors.price[0]}</Text>}
             <Switch value={addLocation} onValueChange={setAddLocation} leftText="text.location" />
           </Dialog.Content>
           <Dialog.Actions style={Styles.dialogActionsButtons}>
@@ -65,6 +114,8 @@ const ItemForm = () => {
                 <FormButton
                   title="addItem"
                   uppercase
+                  constraints={{ fields: { name, desc, price, image }, rules: constraints }}
+                  onError={setErrors}
                   onSubmit={() => {
                     const item = {
                       name,

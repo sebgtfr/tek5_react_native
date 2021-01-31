@@ -10,7 +10,7 @@ import { FirebaseContext } from '../../providers/FirebaseProvider';
 import FormList from '../../components/forms/utils/FormList';
 
 const Home = () => {
-  const [items, setItems] = React.useState(false);
+  const [items, setItems] = React.useState([]);
   const firebase = React.useContext(FirebaseContext);
   const itemsCollection = useCollection('items');
 

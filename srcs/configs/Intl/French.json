@@ -24,7 +24,8 @@
 
       "item": {
         "name": "Nom",
-        "desc": "Description"
+        "desc": "Description",
+        "price": "Prix"
       }
 
     },
@@ -33,6 +34,10 @@
 
       "missing": {
 
+        "name": "Le nom est requis.",
+        "desc": "La description est requis.",
+        "price": "Le prix est requis.",
+        "image": "L'image est requis.",
         "email": "L'adresse e-mail est requis.",
         "password": "Le mot de passe est requis."
 
@@ -40,7 +45,8 @@
 
       "invalid": {
 
-        "email": "Le format de l'adresse e-mail est invalide."
+        "email": "Le format de l'adresse e-mail est invalide.",
+        "price": "le prix doit être un nombre positif."
 
       },
 

@@ -16,7 +16,9 @@ const ButtonIntl = ({ title, onSubmit, constraints, onError, mode, labelStyle, u
     uppercase={uppercase}
     onPress={() => {
       const validatedErrors =
-        constraints !== null ? validate(constraints.fields, constraints.rules) : undefined;
+        constraints !== null
+          ? validate(constraints.fields, constraints.rules, { fullMessages: false })
+          : undefined;
 
       if (onError !== null) {
         onError(validatedErrors || {});

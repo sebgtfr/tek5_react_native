@@ -1,6 +1,7 @@
 export const defaultReducerValue = {
   name: '',
   desc: '',
+  price: '0',
   addLocation: false,
   image: null,
   addItemFormVisible: false,
@@ -17,6 +18,11 @@ const Reducer = (prevState = defaultReducerValue, action) => {
       return {
         ...prevState,
         desc: action.desc,
+      };
+    case 'UPDATE_PRICE':
+      return {
+        ...prevState,
+        price: action.price,
       };
     case 'UPDATE_ADD_LOCATION':
       return {
