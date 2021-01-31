@@ -1,10 +1,12 @@
 import React from 'react';
+
 import { View } from 'react-native';
 
 import { TextEdit } from '../../components/utils';
 import { FirebaseConsumer } from '../../providers/FirebaseProvider';
+import { IntlConsumer } from '../../providers/IntlProvider';
 
-import { ButtonIntl } from '../../components/intl';
+import { ButtonIntl, SelectLocale } from '../../components/intl';
 import { FormAvatar } from '../../components/forms/utils';
 
 import Styles from './Styles';
@@ -20,8 +22,28 @@ const Profile = () => (
             type="uri"
             onChange={(photoURL) => firebase.edit({ photoURL })}
           />
-          <TextEdit value={firebase.user.displayName} />
-          <TextEdit value={firebase.user.email} />
+          <TextEdit
+            label="name"
+            value={firebase.user.displayName}
+            onSubmit={() => undefined}
+            missingLabel="name"
+          />
+          <IntlConsumer>
+            {(intl) => (
+              <TextEdit
+                label="email"
+                value={firebase.user.email}
+                constraints={{
+                  email: {
+                    message: intl.t('form.error.invalid.email'),
+                  },
+                }}
+                onSubmit={(email) => firebase.edit({ email })}
+                missingLabel="email"
+              />
+            )}
+          </IntlConsumer>
+          <SelectLocale />
           <ButtonIntl uppercase title="button.signOut" onSubmit={() => firebase.signOut()} />
         </>
       )}
