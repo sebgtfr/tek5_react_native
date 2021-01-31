@@ -54,6 +54,8 @@ follow instructions on [expo documentation](https://docs.expo.io/distribution/bu
   expo build:ios
   ```
 
+You can access the application from expo through this URL: [https://expo.io/@sebgtfrepitech/projects/Emercure](https://expo.io/@sebgtfrepitech/projects/Emercure)
+
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
