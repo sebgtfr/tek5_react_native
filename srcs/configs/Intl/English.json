@@ -11,6 +11,11 @@
     "profile": "Profile"
   },
 
+  "theme": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+
   "text": {
     "location": "Localisation"
   },

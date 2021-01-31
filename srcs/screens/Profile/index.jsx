@@ -2,10 +2,10 @@ import React from 'react';
 
 import { View } from 'react-native';
 
-import { TextEdit } from '../../components/utils';
 import { FirebaseConsumer } from '../../providers/FirebaseProvider';
 import { IntlConsumer } from '../../providers/IntlProvider';
 
+import { TextEdit, SwitchTheme } from '../../components/utils';
 import { ButtonIntl, SelectLocale } from '../../components/intl';
 import { FormAvatar } from '../../components/forms/utils';
 
@@ -44,6 +44,7 @@ const Profile = () => (
             )}
           </IntlConsumer>
           <SelectLocale />
+          <SwitchTheme />
           <ButtonIntl uppercase title="button.signOut" onSubmit={() => firebase.signOut()} />
         </>
       )}
