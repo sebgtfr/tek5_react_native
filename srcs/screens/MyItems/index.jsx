@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import Styles from './Styles';
 
-import ItemForm from '../../components/forms/ItemForm';
 import { ItemsList } from '../../components/utils';
 import { Firestore } from '../../configs/Firebase';
 import { FirebaseContext } from '../../providers/FirebaseProvider';
@@ -70,7 +69,6 @@ const MyItems = () => {
         <ButtonIntl uppercase title="button.notSold" onSubmit={() => setSold(false)} />
         <ButtonIntl uppercase title="button.sold" onSubmit={() => setSold(true)} />
       </View>
-      <ItemForm />
 
       <ItemsList
         items={sold ? soldItems : notSoldItems}

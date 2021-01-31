@@ -7,7 +7,7 @@ export const defaultReducerValue = {
   addItemFormVisible: false,
 };
 
-const Reducer = (prevState = defaultReducerValue, action) => {
+const Reducer = (prevState, action) => {
   switch (action.type) {
     case 'UPDATE_NAME':
       return {
