@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Firebase from '../../configs/Firebase';
+import Firebase, { FirebaseStorage } from '../../configs/Firebase';
 import useCollection from '../../hooks/useCollection';
 
 // Reducer
@@ -42,6 +42,26 @@ const FirebaseProvider = ({ children }) => {
     [userCollection]
   );
 
+  const uploadFile = React.useCallback(
+    (filename, uri, onProgress = undefined) =>
+      fetch(uri)
+        .then((response) => response.blob())
+        .then((file) => {
+          const task = FirebaseStorage.ref(filename).put(file, { contentType: 'image/jpeg' });
+
+          return new Promise((resolve, reject) =>
+            task.on(
+              'state_changed',
+              ({ bytesTransferred, totalBytes }) =>
+                onProgress && onProgress((bytesTransferred / totalBytes) * 100),
+              reject,
+              () => resolve(task.snapshot.ref.getDownloadURL())
+            )
+          );
+        }),
+    []
+  );
+
   React.useEffect(onAuthStateChanged, [onAuthStateChanged]);
 
   const firebaseContext = React.useMemo(
@@ -54,8 +74,10 @@ const FirebaseProvider = ({ children }) => {
       ...{ ...Auth, signUp },
 
       edit,
+
+      uploadFile,
     }),
-    [edit, signUp, state]
+    [edit, signUp, uploadFile, state]
   );
 
   return <FirebaseContext.Provider value={firebaseContext}>{children}</FirebaseContext.Provider>;

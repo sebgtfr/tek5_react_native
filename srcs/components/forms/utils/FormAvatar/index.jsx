@@ -55,7 +55,7 @@ FormAvatar.propTypes = {
     PropTypes.shape({
       uri: PropTypes.string.isRequired,
     }),
-  ]).isRequired,
+  ]),
   type: PropTypes.string.isRequired,
   size: PropTypes.number,
   onChange: PropTypes.func,
@@ -63,6 +63,7 @@ FormAvatar.propTypes = {
 };
 
 FormAvatar.defaultProps = {
+  src: undefined,
   size: undefined,
   onChange: undefined,
   square: false,

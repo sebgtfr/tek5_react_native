@@ -52,7 +52,7 @@ const ItemForm = () => {
           </Dialog.Title>
           <Dialog.Content>
             <View style={Styles.imageContainer}>
-              <FormAvatar size={128} type="base64" onChange={setImage} square />
+              <FormAvatar size={128} type="uri" onChange={setImage} square />
             </View>
             <FormInput label="item.name" value={name} returnKeyType="next" onChangeText={setName} />
             <FormInput label="item.desc" value={desc} returnKeyType="next" onChangeText={setDesc} />
@@ -70,19 +70,23 @@ const ItemForm = () => {
                       name,
                       desc,
                       email: firebase.user.email,
-                      id: firebase.user.uid,
-                      photoURL: image && { uri: image },
+                      userId: firebase.user.uid,
                     };
-                    const saveItem = addLocation
-                      ? location
-                          .getPosition()
-                          .then(({ longitude, latitude }) =>
-                            itemsCollection.add({ ...item, longitude, latitude })
-                          )
-                          .catch()
-                      : itemsCollection.add(item);
 
-                    saveItem.then(CloseAddItemForm);
+                    const saveItem = Promise.all([
+                      firebase.uploadFile(`${item.name}-${item.userId}-${Date.now()}`, image),
+                      addLocation
+                        ? location
+                            .getPosition()
+                            .then(({ longitude, latitude }) =>
+                              itemsCollection.add({ ...item, longitude, latitude })
+                            )
+                        : itemsCollection.add(item),
+                    ]);
+
+                    saveItem
+                      .then(([photoURL, newItem]) => newItem.update({ photoURL }))
+                      .catch(() => undefined);
                   }}
                 />
               )}

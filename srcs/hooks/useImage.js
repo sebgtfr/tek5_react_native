@@ -36,9 +36,16 @@ const useImage = (type) => {
         .then((result) => {
           if (!result.cancelled) {
             const { uri, base64 } = result;
-            const base64Img = `data:image/jpeg;base64,${base64}`;
 
-            setImage(type === 'uri' ? uri : base64Img);
+            switch (type) {
+              case 'base64':
+                setImage(`data:image/jpeg;base64,${base64}`);
+                break;
+              case 'uri':
+              default:
+                setImage(uri);
+                break;
+            }
           }
         })
         .catch(),

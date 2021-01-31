@@ -3,6 +3,7 @@ import './fix';
 import * as firebase from 'firebase/app';
 import '@firebase/auth';
 import '@firebase/firestore';
+import '@firebase/storage';
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -18,5 +19,6 @@ const firebaseConfig = {
 const App = firebase.initializeApp(firebaseConfig);
 
 export const Firestore = firebase.firestore(App);
+export const FirebaseStorage = firebase.storage(App);
 
 export default firebase;

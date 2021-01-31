@@ -30,13 +30,15 @@ const useLocation = () => {
   const hasRight = React.useCallback((status) => status === 'granted', []);
 
   React.useEffect(() => {
-    Location.getPermissionsAsync().then(({ status }) =>
-      hasRight(status)
-        ? Location.getCurrentPositionAsync().then(({ coords: { longitude, latitude } }) =>
-            dispatch({ type: 'INIT_LOCATION', longitude, latitude, right: true })
-          )
-        : undefined
-    );
+    Location.getPermissionsAsync()
+      .then(({ status }) =>
+        hasRight(status)
+          ? Location.getCurrentPositionAsync().then(({ coords: { longitude, latitude } }) =>
+              dispatch({ type: 'INIT_LOCATION', longitude, latitude, right: true })
+            )
+          : undefined
+      )
+      .catch(() => undefined);
   }, [hasRight]);
 
   const requestPermissions = React.useCallback(

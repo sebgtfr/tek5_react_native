@@ -25,12 +25,13 @@ Avatar.propTypes = {
     PropTypes.shape({
       uri: PropTypes.string.isRequired,
     }),
-  ]).isRequired,
+  ]),
   size: PropTypes.number,
   square: PropTypes.bool,
 };
 
 Avatar.defaultProps = {
+  src: defaultAvatar,
   size: 64,
   square: false,
 };
