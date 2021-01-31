@@ -23,7 +23,7 @@ const FormList = ({ items }) => (
         </Text>
       </View>
     )}
-    keyExtractor={({ id }) => id}
+    keyExtractor={({ key }) => key}
   />
 );
 
@@ -35,6 +35,7 @@ FormList.propTypes = {
       desc: PropTypes.string.isRequired,
       email: PropTypes.string.isRequired,
       photoURL: PropTypes.string.isRequired,
+      key: PropTypes.string.isRequired,
     })
   ).isRequired,
 };

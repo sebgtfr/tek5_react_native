@@ -19,11 +19,10 @@ const Home = () => {
       const list = [];
       itemsCollection.get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          let tmp = {};
-          tmp = doc.data();
-          tmp.id = doc.id;
+          const tmp = doc.data();
+
           if (tmp.id !== firebase.user.uid) {
-            list.push(tmp);
+            list.push({ ...tmp, key: tmp.id });
           }
         });
         setItems(list);
