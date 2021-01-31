@@ -19,16 +19,19 @@ const Home = () => {
     React.useCallback(() => {
       const list = [];
 
-      itemsCollection.get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const tmp = doc.data();
+      itemsCollection
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const tmp = doc.data();
 
-          if (tmp.userId !== userId && tmp.sold === false) {
-            list.push({ ...tmp, key: doc.id });
-          }
-        });
-        setItems(list);
-      });
+            if (tmp.userId !== userId && tmp.sold === false) {
+              list.push({ ...tmp, key: doc.id });
+            }
+          });
+          setItems(list);
+        })
+        .catch(() => undefined);
     }, [userId, itemsCollection])
   );
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { Text } from 'react-native-paper';
+import { TextEdit } from '../../components/utils';
 import { FirebaseConsumer } from '../../providers/FirebaseProvider';
 
 import { ButtonIntl } from '../../components/intl';
@@ -20,8 +20,8 @@ const Profile = () => (
             type="uri"
             onChange={(photoURL) => firebase.edit({ photoURL })}
           />
-          {firebase.user.displayName && <Text>{firebase.user.displayName}</Text>}
-          <Text>{firebase.user.email}</Text>
+          <TextEdit value={firebase.user.displayName} />
+          <TextEdit value={firebase.user.email} />
           <ButtonIntl uppercase title="button.signOut" onSubmit={() => firebase.signOut()} />
         </>
       )}

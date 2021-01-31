@@ -24,21 +24,24 @@ const MyItems = () => {
       const soldItemsTmp = [];
       const notSoldItemsTmp = [];
 
-      itemsCollection.get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const tmp = doc.data();
+      itemsCollection
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const tmp = doc.data();
 
-          if (tmp.userId === userId) {
-            if (tmp.sold) {
-              soldItemsTmp.push({ ...tmp, key: doc.id });
-            } else {
-              notSoldItemsTmp.push({ ...tmp, key: doc.id });
+            if (tmp.userId === userId) {
+              if (tmp.sold) {
+                soldItemsTmp.push({ ...tmp, key: doc.id });
+              } else {
+                notSoldItemsTmp.push({ ...tmp, key: doc.id });
+              }
             }
-          }
-        });
-        setSoldItems(soldItemsTmp);
-        setNotSoldItems(notSoldItemsTmp);
-      });
+          });
+          setSoldItems(soldItemsTmp);
+          setNotSoldItems(notSoldItemsTmp);
+        })
+        .catch(() => undefined);
     }, [userId, itemsCollection])
   );
 
@@ -49,7 +52,7 @@ const MyItems = () => {
         <ButtonIntl uppercase title="button.sold" onSubmit={() => setSold(true)} />
       </View>
       <ItemForm />
-      <FormList items={sold ? soldItems : notSoldItems} myItems={true} />
+      <FormList items={sold ? soldItems : notSoldItems} myItems />
     </View>
   );
 };
