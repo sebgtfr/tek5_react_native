@@ -122,7 +122,7 @@ const ItemForm = () => {
                       desc,
                       email: firebase.user.email,
                       userId: firebase.user.uid,
-                      solde: false,
+                      sold: false,
                     };
 
                     const saveItem = Promise.all([

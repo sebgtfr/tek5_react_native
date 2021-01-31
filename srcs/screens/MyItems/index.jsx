@@ -1,44 +1,44 @@
 import React from 'react';
-import { Text, View, FlatList, Image } from 'react-native';
+import { View } from 'react-native';
 
+import { useFocusEffect } from '@react-navigation/native';
 import Styles from './Styles';
 
 import ItemForm from '../../components/forms/ItemForm';
 import FormList from '../../components/forms/utils/FormList';
 import useCollection from '../../hooks/useCollection';
-import { useFocusEffect } from '@react-navigation/native';
 import { FirebaseContext } from '../../providers/FirebaseProvider';
 import { ButtonIntl } from '../../components/intl';
 
 const MyItems = () => {
-  const [soldItems, setSoldItems] = React.useState(false);
-  const [notSoldItems, setNotSoldItems] = React.useState(false);
+  const itemsCollection = useCollection('items');
+
+  const [soldItems, setSoldItems] = React.useState([]);
+  const [notSoldItems, setNotSoldItems] = React.useState([]);
   const [sold, setSold] = React.useState(false);
   const firebase = React.useContext(FirebaseContext);
 
   useFocusEffect(
     React.useCallback(() => {
-      let soldItems = [];
-      let notSoldItems = [];
-      useCollection('items')
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            let tmp = {};
-            tmp = doc.data();
-            tmp._id = doc.id;
-            if (tmp.id == firebase.user.uid) {
-              if (tmp.sold) {
-                soldItems.push(tmp);
-              } else {
-                notSoldItems.push(tmp);
-              }
+      const soldItemsTmp = [];
+      const notSoldItemsTmp = [];
+
+      itemsCollection.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const tmp = { ...doc.data(), id: doc.id, key: doc.id };
+
+          if (tmp.id === firebase.user.uid) {
+            if (tmp.sold) {
+              soldItemsTmp.push(tmp);
+            } else {
+              notSoldItemsTmp.push(tmp);
             }
-          });
-          setSoldItems(soldItems);
-          setNotSoldItems(notSoldItems);
+          }
         });
-    }, [])
+        setSoldItems(soldItemsTmp);
+        setNotSoldItems(notSoldItemsTmp);
+      });
+    }, [firebase.user.uid, itemsCollection])
   );
 
   return (
@@ -48,8 +48,7 @@ const MyItems = () => {
         <ButtonIntl uppercase title="button.sold" onSubmit={() => setSold(true)} />
       </View>
       <ItemForm />
-      <Text>Item List</Text>
-      <FormList items={sold ? soldItems : notSoldItems} myItems={true} />
+      <FormList items={sold ? soldItems : notSoldItems} myItems />
     </View>
   );
 };

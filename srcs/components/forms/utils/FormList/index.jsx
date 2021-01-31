@@ -1,21 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Text, View, FlatList, Image } from 'react-native';
-import { Button, Dialog } from 'react-native-paper';
-import { ButtonIntl } from '../../../../components/intl';
+import { View, FlatList, TouchableOpacity } from 'react-native';
+import { Dialog, Portal, Text } from 'react-native-paper';
+import { ButtonIntl } from '../../../intl';
 import useCollection from '../../../../hooks/useCollection';
 import Avatar from '../../../utils/Avatar';
 
 const FormList = ({ items, myItems }) => {
+  const itemsCollection = useCollection('items');
+
   const [visible, setVisible] = React.useState(false);
 
   const show = React.useCallback(() => setVisible(true), [setVisible]);
   const hide = React.useCallback(() => setVisible(false), [setVisible]);
 
-  setToSolde = (key) => {
-    useCollection('items').doc(key).update({ solde: true });
-  };
+  const setToSold = React.useCallback((key) => itemsCollection.doc(key).update({ sold: true }), [
+    itemsCollection,
+  ]);
 
   return (
     <FlatList
@@ -38,19 +40,13 @@ const FormList = ({ items, myItems }) => {
           <Portal>
             <Dialog visible={visible} onDismiss={hide}>
               <Dialog.Content style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <ButtonIntl
-                  uppercase
-                  title="button.cancel"
-                  onSubmit={() => {
-                    hide;
-                  }}
-                />
+                <ButtonIntl uppercase title="button.cancel" onSubmit={hide} />
                 <ButtonIntl
                   uppercase
                   title={myItems ? 'button.setSold' : 'Button.buy'}
                   onSubmit={() => {
-                    setToSolde(key);
-                    hide;
+                    setToSold(key);
+                    hide();
                   }}
                 />
               </Dialog.Content>
@@ -66,7 +62,6 @@ const FormList = ({ items, myItems }) => {
 FormList.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       desc: PropTypes.string.isRequired,
       email: PropTypes.string.isRequired,

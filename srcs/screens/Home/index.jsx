@@ -21,8 +21,8 @@ const Home = () => {
         querySnapshot.forEach((doc) => {
           const tmp = doc.data();
 
-          if (tmp.id !== firebase.user.uid) {
-            list.push({ ...tmp, key: tmp.id });
+          if (doc.id !== firebase.user.uid) {
+            list.push({ ...tmp, id: doc.id, key: doc.id });
           }
         });
         setItems(list);
