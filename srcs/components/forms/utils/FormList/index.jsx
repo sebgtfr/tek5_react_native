@@ -5,6 +5,7 @@ import { Text, View, FlatList, Image } from 'react-native';
 import { Button, Dialog } from 'react-native-paper';
 import { ButtonIntl } from '../../../../components/intl';
 import useCollection from '../../../../hooks/useCollection';
+import Avatar from '../../../utils/Avatar';
 
 const FormList = ({ items, myItems }) => {
   const [visible, setVisible] = React.useState(false);
@@ -22,7 +23,7 @@ const FormList = ({ items, myItems }) => {
       renderItem={({ item: { name, desc, email, photoURL, key } }) => (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <TouchableOpacity onPress={show}>
-            <Image style={{ width: 128, height: 128 }} source={photoURL} />
+            <Avatar src={photoURL} size={128} square />
             <Text>
               Name: {name}
               {'\n'}
