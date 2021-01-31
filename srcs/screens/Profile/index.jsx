@@ -5,7 +5,7 @@ import { Text } from 'react-native-paper';
 import { FirebaseConsumer } from '../../providers/FirebaseProvider';
 
 import { ButtonIntl } from '../../components/intl';
-import { Avatar } from '../../components/utils';
+import { FormAvatar } from '../../components/forms/utils';
 
 import Styles from './Styles';
 
@@ -14,7 +14,12 @@ const Profile = () => (
     <FirebaseConsumer>
       {(firebase) => (
         <>
-          <Avatar src={firebase.user.photoURL} size={128} />
+          <FormAvatar
+            src={firebase.user.photoURL}
+            size={128}
+            type="uri"
+            onChange={(photoURL) => firebase.edit({ photoURL })}
+          />
           {firebase.user.displayName && <Text>{firebase.user.displayName}</Text>}
           <Text>{firebase.user.email}</Text>
           <ButtonIntl uppercase title="button.signOut" onSubmit={() => firebase.signOut()} />
