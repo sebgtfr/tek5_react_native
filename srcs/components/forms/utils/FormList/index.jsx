@@ -43,7 +43,7 @@ const FormList = ({ items, myItems }) => {
                 <ButtonIntl uppercase title="button.cancel" onSubmit={hide} />
                 <ButtonIntl
                   uppercase
-                  title={myItems ? 'button.setSold' : 'Button.buy'}
+                  title={myItems ? 'button.setSold' : 'button.buy'}
                   onSubmit={() => {
                     setToSold(key);
                     hide();

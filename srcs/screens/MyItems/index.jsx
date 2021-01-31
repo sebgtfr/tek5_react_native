@@ -25,13 +25,13 @@ const MyItems = () => {
 
       itemsCollection.get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          const tmp = { ...doc.data(), id: doc.id, key: doc.id };
+          const tmp = doc.data();
 
-          if (tmp.id === firebase.user.uid) {
+          if (tmp.userId === firebase.user.uid) {
             if (tmp.sold) {
-              soldItemsTmp.push(tmp);
+              soldItemsTmp.push({ ...tmp, key: doc.id });
             } else {
-              notSoldItemsTmp.push(tmp);
+              notSoldItemsTmp.push({ ...tmp, key: doc.id });
             }
           }
         });
@@ -48,7 +48,7 @@ const MyItems = () => {
         <ButtonIntl uppercase title="button.sold" onSubmit={() => setSold(true)} />
       </View>
       <ItemForm />
-      <FormList items={sold ? soldItems : notSoldItems} myItems />
+      <FormList items={sold ? soldItems : notSoldItems} myItems={true} />
     </View>
   );
 };
