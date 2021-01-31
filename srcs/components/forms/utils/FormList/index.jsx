@@ -19,10 +19,14 @@ const FormList = ({ items, myItems }) => {
     itemsCollection,
   ]);
 
+  const setToUnSold = React.useCallback((key) => itemsCollection.doc(key).update({ sold: false }), [
+    itemsCollection,
+  ]);
+
   return (
     <FlatList
       data={items}
-      renderItem={({ item: { name, desc, email, photoURL, key } }) => (
+      renderItem={({ item: { name, desc, email, photoURL, key, sold } }) => (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <TouchableOpacity onPress={show}>
             <Avatar src={photoURL} size={128} square />
@@ -39,13 +43,16 @@ const FormList = ({ items, myItems }) => {
           </TouchableOpacity>
           <Portal>
             <Dialog visible={visible} onDismiss={hide}>
+              <Dialog.Content style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                <Avatar src={photoURL} size={300} square />
+              </Dialog.Content>
               <Dialog.Content style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <ButtonIntl uppercase title="button.cancel" onSubmit={hide} />
                 <ButtonIntl
                   uppercase
-                  title={myItems ? 'button.setSold' : 'button.buy'}
+                  title={sold ? 'button.unSold' : myItems ? 'button.setSold' : 'button.buy'}
                   onSubmit={() => {
-                    setToSold(key);
+                    sold ? setToUnSold(key) : setToSold(key);
                     hide();
                   }}
                 />
