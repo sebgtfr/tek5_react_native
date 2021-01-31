@@ -41,7 +41,7 @@ const ItemForm = () => {
         message: intl.t('form.error.missing.price'),
       },
       format: {
-        pattern: /\d/,
+        pattern: /\d+/,
         message: intl.t('form.error.invalid.price'),
       },
     },
