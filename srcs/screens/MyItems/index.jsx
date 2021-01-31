@@ -49,7 +49,7 @@ const MyItems = () => {
       </View>
       <ItemForm />
       <Text>Item List</Text>
-      <FormList items={sold ? soldItems : notSoldItems} />
+      <FormList items={sold ? soldItems : notSoldItems} myItems={true} />
     </View>
   );
 };

@@ -75,7 +75,9 @@
     "signOut": "Deconnexion",
     "cancel": "Annuler",
     "sold": "Vendu",
-    "notSold": "Non vendu"
+    "notSold": "Non vendu",
+    "buy": "acheter",
+    "setSold": "déclarer vendu"
 
   }
 }

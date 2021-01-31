@@ -33,7 +33,7 @@ const Home = () => {
   return (
     <View style={Styles.container}>
       <ItemForm />
-      <FormList items={items} />
+      <FormList items={items} myItems={false} />
     </View>
   );
 };
