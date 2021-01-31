@@ -7,7 +7,7 @@ import Styles from './Styles';
 import ItemForm from '../../components/forms/ItemForm';
 import { FirebaseContext } from '../../providers/FirebaseProvider';
 import { Firestore } from '../../configs/Firebase';
-import FormList from '../../components/forms/utils/FormList';
+import { ItemsList } from '../../components/utils';
 
 const Home = () => {
   const [items, setItems] = React.useState([]);
@@ -38,7 +38,7 @@ const Home = () => {
   return (
     <View style={Styles.container}>
       <ItemForm />
-      <FormList items={items} myItems={false} />
+      <ItemsList items={items} myItems={false} />
     </View>
   );
 };
